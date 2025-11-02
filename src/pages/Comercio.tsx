@@ -115,26 +115,18 @@ const Comercio = () => {
       return;
     }
 
-    if (!isCashoutPoint) {
-      toast({
-        title: lang === "es" ? "No registrado" : "Not registered",
-        description: lang === "es" 
-          ? "Debes registrar tu comercio primero" 
-          : "You must register your business first",
-        variant: "destructive",
-      });
-      return;
-    }
-
+    // HARDCODED: Permitir a cualquier wallet conectada procesar retiros (para demo)
+    // En producción, deberías verificar isCashoutPoint
+    
     claimRemittance(searchCode);
   };
 
+  // HARDCODED: Permitir claim a cualquier wallet conectada (para demo)
   // Una remesa se puede reclamar si está en estado ReadyForPickup (2) o Pending (0)
   const canClaim = remittance && 
     !remittance.isClaimed && 
     (remittance.status === 0 || remittance.status === 2) && 
-    isConnected && 
-    isCashoutPoint;
+    isConnected; // Ya no verifica isCashoutPoint
   const alreadyClaimed = remittance && (remittance.isClaimed || isClaimed);
 
   return (
@@ -166,8 +158,9 @@ const Comercio = () => {
 
           {/* TAB: Procesar Retiro */}
           <TabsContent value="claim" className="space-y-6">
+            {/* HARDCODED: Comentar el warning de registro para demo */}
             {/* Estado de registro */}
-            {!isCashoutPoint && isConnected && (
+            {/* {!isCashoutPoint && isConnected && (
               <Alert className="border-warning/20 bg-warning/10">
                 <Store className="h-4 w-4 text-warning" />
                 <AlertDescription className="text-warning">
@@ -176,20 +169,21 @@ const Comercio = () => {
                     : "⚠️ You must register your business before processing withdrawals. Go to the 'My Business' tab"}
                 </AlertDescription>
               </Alert>
-            )}
+            )} */}
 
-            {isCashoutPoint && (
+            {/* HARDCODED: Mostrar siempre como activo para demo */}
+            {isConnected && (
               <Alert className="border-success/20 bg-success/10">
                 <CheckCircle2 className="h-4 w-4 text-success" />
                 <AlertDescription className="text-success">
                   {lang === "es" 
-                    ? "✓ Tu comercio está registrado y activo" 
-                    : "✓ Your business is registered and active"}
-                  {cashoutPoint && cashoutPoint.name && (
-                    <span className="block text-sm mt-1">
-                      {cashoutPoint.name}
-                    </span>
-                  )}
+                    ? "✓ Modo Demo: Puedes procesar cualquier retiro" 
+                    : "✓ Demo Mode: You can process any withdrawal"}
+                  <span className="block text-sm mt-1 opacity-75">
+                    {lang === "es" 
+                      ? "En producción se requeriría registro como comercio autorizado" 
+                      : "In production, authorized business registration would be required"}
+                  </span>
                 </AlertDescription>
               </Alert>
             )}
@@ -359,10 +353,6 @@ const Comercio = () => {
                         ? (lang === "es" 
                             ? "Conecta tu wallet para procesar el retiro" 
                             : "Connect your wallet to process the withdrawal")
-                        : !isCashoutPoint
-                        ? (lang === "es" 
-                            ? "Debes registrar tu comercio primero" 
-                            : "You must register your business first")
                         : (lang === "es" 
                             ? "Esta remesa no está disponible para retiro" 
                             : "This remittance is not available for withdrawal")
