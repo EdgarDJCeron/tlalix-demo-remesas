@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { WalletStatus } from "@/components/WalletStatus";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { calculateTotal, currentRates } from "@/mocks/rates";
 import { generateReceipt } from "@/mocks/receipts";
@@ -61,6 +62,11 @@ const Enviar = () => {
         <h1 className="mb-8 text-3xl font-bold text-center text-foreground">
           {lang === "es" ? "Enviar remesa" : "Send remittance"}
         </h1>
+
+        {/* Wallet Status */}
+        <div className="mb-6">
+          <WalletStatus />
+        </div>
 
         {/* Progress Steps */}
         <div className="mb-8 flex justify-between">

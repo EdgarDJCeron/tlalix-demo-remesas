@@ -3,6 +3,7 @@ import { Moon, Sun, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { WalletButton } from "@/components/WalletButton";
 import { t } from "@/lib/i18n";
 
 export const Navbar = () => {
@@ -47,11 +48,7 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center space-x-2">
-          <Link to="/enviar">
-            <Button size="sm" className="hidden sm:inline-flex bg-gradient-primary">
-              {t("nav.demo", lang)}
-            </Button>
-          </Link>
+          <WalletButton />
 
           <Button
             variant="ghost"
