@@ -136,7 +136,7 @@ contract Tlalix is Ownable, ReentrancyGuard, Pausable {
     // ============================================
     // CONSTRUCTOR
     // ============================================
-    
+
     constructor(address _usdcToken) Ownable(msg.sender) {
         usdcToken = IERC20(_usdcToken);
     }
@@ -165,7 +165,11 @@ contract Tlalix is Ownable, ReentrancyGuard, Pausable {
         uint256 netAmount = _amountUSD - fee;
         
         // Calcular equivalente en MXN
-        uint256 amountMXN = (netAmount * exchangeRate) / 100;
+        // netAmount está en USDC (6 decimales)
+        // exchangeRate = 1750 representa 17.50 MXN/USD (2 decimales)
+        // Resultado: amountMXN en centavos (2 decimales)
+        // Fórmula: (netAmount_6decimales * rate_2decimales) / 10000 = MXN_2decimales
+        uint256 amountMXN = (netAmount * exchangeRate) / 10000;
         
         // Obtener destinatario
         address recipient = aliasToAddress[_recipientAlias];
@@ -260,6 +264,45 @@ contract Tlalix is Ownable, ReentrancyGuard, Pausable {
         );
         
         emit RemittanceClaimed(_code, remittance.recipient, msg.sender, finalAmount);
+    }
+    
+    /**
+     * @dev Reclamar remesa directamente (por el destinatario)
+     * @param _code Código de la remesa
+     */
+    function claimRemittanceByRecipient(string memory _code) external nonReentrant {
+        Remittance storage remittance = remittances[_code];
+        
+        require(remittance.timestamp != 0, "Remittance does not exist");
+        require(!remittance.isClaimed, "Already claimed");
+        require(
+            remittance.status == RemittanceStatus.ReadyForPickup || 
+            remittance.status == RemittanceStatus.Pending,
+            "Not available for claim"
+        );
+        require(
+            block.timestamp <= remittance.timestamp + expirationTime,
+            "Remittance expired"
+        );
+        require(msg.sender == remittance.recipient, "Not the recipient");
+        
+        // Actualizar estado
+        remittance.isClaimed = true;
+        remittance.status = RemittanceStatus.Claimed;
+        remittance.cashoutPoint = msg.sender; // El destinatario reclama directamente
+        
+        // Actualizar estadísticas del destinatario
+        if (userProfiles[msg.sender].isRegistered) {
+            userProfiles[msg.sender].totalReceived += remittance.amountUSD;
+        }
+        
+        // Transferir USDC directamente al destinatario
+        require(
+            usdcToken.transfer(msg.sender, remittance.amountUSD),
+            "Transfer failed"
+        );
+        
+        emit RemittanceClaimed(_code, remittance.recipient, msg.sender, remittance.amountUSD);
     }
     
     /**
@@ -471,7 +514,9 @@ contract Tlalix is Ownable, ReentrancyGuard, Pausable {
     ) {
         fee = (_amountUSD * platformFeePct) / 10000;
         netUSD = _amountUSD - fee;
-        amountMXN = (netUSD * exchangeRate) / 100;
+        // Convertir USDC (6 decimales) a MXN (2 decimales)
+        // Fórmula: (netUSD_6decimales * rate_2decimales) / 10000 = MXN_2decimales
+        amountMXN = (netUSD * exchangeRate) / 10000;
     }
     
     /**

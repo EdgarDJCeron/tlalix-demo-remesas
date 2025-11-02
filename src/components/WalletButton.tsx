@@ -23,7 +23,7 @@ export const WalletButton = () => {
 
   if (isConnecting) {
     return (
-      <Button size="sm" disabled className="bg-gradient-primary">
+      <Button size="sm" disabled className="bg-[hsl(var(--color-celeste))] text-white">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         {lang === 'es' ? 'Conectando...' : 'Connecting...'}
       </Button>
@@ -34,21 +34,21 @@ export const WalletButton = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" className="bg-gradient-primary font-mono">
+          <Button size="sm" className="bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white font-mono border border-[hsl(var(--color-celeste))]">
             <Wallet className="mr-2 h-4 w-4" />
             {formatAddress(address)}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>
+        <DropdownMenuContent align="end" className="w-56 bg-[hsl(var(--color-azul-mar))] border-white/20">
+          <DropdownMenuLabel className="text-white">
             {lang === 'es' ? 'Mi Wallet' : 'My Wallet'}
           </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="font-mono text-xs">
+          <DropdownMenuSeparator className="bg-white/10" />
+          <DropdownMenuItem className="font-mono text-xs text-white focus:bg-white/10 focus:text-white">
             {address}
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => disconnect()} className="text-destructive">
+          <DropdownMenuSeparator className="bg-white/10" />
+          <DropdownMenuItem onClick={() => disconnect()} className="text-red-400 focus:bg-white/10 focus:text-red-400">
             <LogOut className="mr-2 h-4 w-4" />
             {lang === 'es' ? 'Desconectar' : 'Disconnect'}
           </DropdownMenuItem>
@@ -63,7 +63,7 @@ export const WalletButton = () => {
       {({ openConnectModal }) => (
         <Button 
           size="sm" 
-          className="bg-gradient-primary"
+          className="bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white border border-[hsl(var(--color-celeste))]"
           onClick={openConnectModal}
         >
           <Wallet className="mr-2 h-4 w-4" />

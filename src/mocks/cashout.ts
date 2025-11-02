@@ -5,8 +5,8 @@ export interface CashoutPoint {
   address: string;
   feePct: number;
   hours: string;
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
 }
 
 export const mockCashoutPoints: CashoutPoint[] = [
