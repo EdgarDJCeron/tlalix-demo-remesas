@@ -5,11 +5,11 @@ export const PatternDivider = () => {
     <div 
       className="h-[25px] sticky z-[49] relative overflow-hidden"
       style={{
-        backgroundColor: 'hsl(var(--color-azul-marino))',
+        backgroundColor: 'hsl(var(--color-noche))',
         backgroundImage: 'url(/images/pattern-rombos.png)',
         backgroundRepeat: 'repeat-x',
         backgroundSize: 'auto 100%',
-        top: '4rem'
+        top: '5rem'
       }}
     >
       {/* Efecto shimmer/brillo */}
@@ -19,3 +19,5 @@ export const PatternDivider = () => {
     </div>
   );
 };
+
+

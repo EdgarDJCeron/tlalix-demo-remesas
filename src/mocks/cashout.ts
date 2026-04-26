@@ -7,6 +7,7 @@ export interface CashoutPoint {
   hours: string;
   lat: number;
   lng: number;
+  logo: string;
 }
 
 export const mockCashoutPoints: CashoutPoint[] = [
@@ -19,6 +20,7 @@ export const mockCashoutPoints: CashoutPoint[] = [
     hours: "8:00 - 22:00",
     lat: 19.4326,
     lng: -99.1332,
+    logo: "https://icons.duckduckgo.com/ip3/www.bodegaaurrera.com.mx.ico"
   },
   {
     id: "2",
@@ -29,6 +31,7 @@ export const mockCashoutPoints: CashoutPoint[] = [
     hours: "24 horas",
     lat: 19.4270,
     lng: -99.1677,
+    logo: "https://icons.duckduckgo.com/ip3/www.oxxo.com.ico"
   },
   {
     id: "3",
@@ -39,6 +42,7 @@ export const mockCashoutPoints: CashoutPoint[] = [
     hours: "7:00 - 23:00",
     lat: 19.1738,
     lng: -96.1342,
+    logo: "https://icons.duckduckgo.com/ip3/www.farmaciasguadalajara.com.ico"
   },
   {
     id: "4",
@@ -49,6 +53,7 @@ export const mockCashoutPoints: CashoutPoint[] = [
     hours: "24 horas",
     lat: 25.6488,
     lng: -100.2890,
+    logo: "https://www.google.com/s2/favicons?domain=7-eleven.com.mx&sz=128"
   },
   {
     id: "5",
@@ -59,6 +64,7 @@ export const mockCashoutPoints: CashoutPoint[] = [
     hours: "8:00 - 21:00",
     lat: 25.6694,
     lng: -100.3099,
+    logo: "https://icons.duckduckgo.com/ip3/www.soriana.com.ico"
   },
 ];
 

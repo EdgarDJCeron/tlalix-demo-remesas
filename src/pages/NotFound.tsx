@@ -9,12 +9,17 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-gray-600">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 underline hover:text-blue-700">
-          Return to Home
+    <div className="flex min-h-screen items-center justify-center bg-white relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-jade/5 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div className="text-center relative z-10 px-4">
+        <h1 className="mb-4 text-9xl font-black text-black tracking-tighter" style={{ fontFamily: 'Cinzel, serif' }}>404</h1>
+        <p className="mb-8 text-2xl text-black/60 font-light italic" style={{ fontFamily: 'Caudex, serif' }}>
+          Parece que te has desviado del camino al Mictlán.
+        </p>
+        <a href="/" className="inline-flex h-16 px-10 items-center justify-center bg-jade text-white font-black rounded-2xl shadow-xl shadow-jade/20 hover:scale-105 transition-all uppercase tracking-widest">
+          Regresar al Inicio
         </a>
       </div>
     </div>
@@ -22,3 +27,6 @@ const NotFound = () => {
 };
 
 export default NotFound;
+
+
+

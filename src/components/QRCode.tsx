@@ -21,3 +21,5 @@ export function QRCode({ value, size = 200, level = 'M', className = '' }: QRCod
     </div>
   );
 }
+
+

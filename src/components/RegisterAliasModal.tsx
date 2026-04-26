@@ -150,20 +150,20 @@ const RegisterAliasModal = ({ open, onOpenChange, onSuccess }: RegisterAliasModa
                 </div>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {lang === "es"
                 ? "Mínimo 3 caracteres. Solo letras minúsculas, números y guiones bajos."
                 : "Minimum 3 characters. Only lowercase letters, numbers and underscores."}
             </p>
             {isAvailable === false && (
-              <p className="text-xs text-red-500">
+              <p className="text-sm text-red-500">
                 {lang === "es"
                   ? "Este alias ya está en uso. Elige otro."
                   : "This alias is already taken. Choose another one."}
               </p>
             )}
             {isAvailable === true && alias.length >= 3 && (
-              <p className="text-xs text-lime-300">
+              <p className="text-sm text-jade font-bold">
                 {lang === "es"
                   ? "¡Este alias está disponible!"
                   : "This alias is available!"}
@@ -172,10 +172,10 @@ const RegisterAliasModal = ({ open, onOpenChange, onSuccess }: RegisterAliasModa
           </div>
 
           <div className="bg-muted p-3 rounded-lg space-y-1">
-            <p className="text-xs font-medium">
+            <p className="text-sm font-medium">
               {lang === "es" ? "Tu wallet:" : "Your wallet:"}
             </p>
-            <p className="text-xs text-muted-foreground font-mono break-all">
+            <p className="text-sm text-muted-foreground font-mono break-all">
               {address}
             </p>
           </div>
@@ -209,3 +209,5 @@ const RegisterAliasModal = ({ open, onOpenChange, onSuccess }: RegisterAliasModa
 };
 
 export default RegisterAliasModal;
+
+

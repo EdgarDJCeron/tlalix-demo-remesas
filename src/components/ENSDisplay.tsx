@@ -23,7 +23,7 @@ export const ENSDisplay = ({ address, showAvatar = false, truncate = true }: ENS
 
   if (isLoadingName) {
     return (
-      <span className="inline-flex items-center gap-1 text-white">
+      <span className="inline-flex items-center gap-1 text-black/80">
         <Loader2 className="h-3 w-3 animate-spin" />
         <span className="font-mono">{truncate ? truncateAddress(address) : address}</span>
       </span>
@@ -32,7 +32,7 @@ export const ENSDisplay = ({ address, showAvatar = false, truncate = true }: ENS
 
   if (showAvatar && ensName) {
     return (
-      <span className="inline-flex items-center gap-2 text-white">
+      <span className="inline-flex items-center gap-2 text-black/80">
         {!isLoadingAvatar && avatar && (
           <Avatar className="h-5 w-5">
             <AvatarImage src={avatar} alt={ensName} />
@@ -47,8 +47,10 @@ export const ENSDisplay = ({ address, showAvatar = false, truncate = true }: ENS
   }
 
   return (
-    <span className={`text-white ${ensName ? "font-medium" : "font-mono"}`}>
+    <span className={`text-black/80 ${ensName ? "font-medium" : "font-mono"}`}>
       {displayName}
     </span>
   );
 };
+
+

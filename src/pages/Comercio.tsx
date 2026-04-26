@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Loader2, CheckCircle2, ExternalLink, Store, Scan } from "lucide-react";
+import { Search, Loader2, CheckCircle2, ExternalLink, Store, Scan, RefreshCw } from "lucide-react";
 import { useAccount } from "wagmi";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -130,102 +130,99 @@ const Comercio = () => {
   const alreadyClaimed = remittance && (remittance.isClaimed || isClaimed);
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center mb-8">
-          <Store className="h-16 w-16 mx-auto mb-4 text-primary" />
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+    <div className="min-h-screen bg-white py-24 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-jade/[0.02] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-oro/[0.02] blur-[150px] rounded-full pointer-events-none" />
+
+      <div className="container mx-auto px-16 max-w-4xl relative z-10">
+        <div className="text-center mb-12">
+          <div className="h-20 w-20 bg-jade/10 rounded-[2rem] mx-auto flex items-center justify-center mb-6 shadow-sm">
+            <Store className="h-10 w-10 text-jade" />
+          </div>
+          <h1 className="text-4xl font-black text-black mb-3 tracking-tighter uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
             {lang === "es" ? "Portal para Comercios" : "Business Portal"}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-black/60 text-lg font-light italic" style={{ fontFamily: 'Caudex, serif' }}>
             {lang === "es" 
               ? "Procesa retiros de remesas y entrega efectivo a tus clientes" 
               : "Process remittance withdrawals and deliver cash to your customers"}
           </p>
         </div>
 
-        <Tabs defaultValue="claim" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="claim">
-              <Scan className="h-4 w-4 mr-2" />
+        <Tabs defaultValue="claim" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-2 bg-black/[0.02] p-1.5 rounded-[2rem] border border-black/5 h-auto">
+            <TabsTrigger value="claim" className="py-4 rounded-[1.5rem] data-[state=active]:bg-white data-[state=active]:shadow-lg data-[state=active]:text-jade font-bold transition-all">
+              <Scan className="h-5 w-5 mr-2" />
               {lang === "es" ? "Procesar Retiro" : "Process Withdrawal"}
             </TabsTrigger>
-            <TabsTrigger value="register">
-              <Store className="h-4 w-4 mr-2" />
+            <TabsTrigger value="register" className="py-4 rounded-[1.5rem] data-[state=active]:bg-white data-[state=active]:shadow-lg data-[state=active]:text-jade font-bold transition-all">
+              <Store className="h-5 w-5 mr-2" />
               {lang === "es" ? "Mi Comercio" : "My Business"}
             </TabsTrigger>
           </TabsList>
 
           {/* TAB: Procesar Retiro */}
-          <TabsContent value="claim" className="space-y-6">
-            {/* HARDCODED: Comentar el warning de registro para demo */}
-            {/* Estado de registro */}
-            {/* {!isCashoutPoint && isConnected && (
-              <Alert className="border-warning/20 bg-warning/10">
-                <Store className="h-4 w-4 text-warning" />
-                <AlertDescription className="text-warning">
-                  {lang === "es" 
-                    ? "⚠️ Debes registrar tu comercio antes de poder procesar retiros. Ve a la pestaña 'Mi Comercio'" 
-                    : "⚠️ You must register your business before processing withdrawals. Go to the 'My Business' tab"}
-                </AlertDescription>
-              </Alert>
-            )} */}
-
-            {/* HARDCODED: Mostrar siempre como activo para demo */}
+          <TabsContent value="claim" className="space-y-8 animate-fade-in">
             {isConnected && (
-              <Alert className="border-success/20 bg-success/10">
-                <CheckCircle2 className="h-4 w-4 text-success" />
-                <AlertDescription className="text-success">
-                  {lang === "es" 
-                    ? "✓ Modo Demo: Puedes procesar cualquier retiro" 
-                    : "✓ Demo Mode: You can process any withdrawal"}
-                  <span className="block text-sm mt-1 opacity-75">
+              <Alert className="border-jade/20 bg-jade/5 rounded-[2rem] p-6 shadow-sm">
+                <CheckCircle2 className="h-5 w-5 text-jade mt-0.5" />
+                <AlertDescription className="text-jade font-medium ml-2">
+                  <span className="text-lg font-bold block mb-1">
+                    {lang === "es" ? "Modo Demo Activo" : "Demo Mode Active"}
+                  </span>
+                  <span className="opacity-80">
                     {lang === "es" 
-                      ? "En producción se requeriría registro como comercio autorizado" 
-                      : "In production, authorized business registration would be required"}
+                      ? "Puedes procesar cualquier retiro de prueba para validar el flujo." 
+                      : "You can process any test withdrawal to validate the flow."}
                   </span>
                 </AlertDescription>
               </Alert>
             )}
 
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  {lang === "es" ? "Escanear o ingresar código" : "Scan or enter code"}
+            <Card className="bg-white border border-black/5 shadow-[0_20px_60px_rgba(0,0,0,0.03)] rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="pt-10 px-10">
+                <CardTitle className="text-2xl font-black text-black tracking-tight uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
+                  {lang === "es" ? "Validar Código" : "Validate Code"}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-black/60">
                   {lang === "es" 
-                    ? "Solicita al cliente que te muestre el código QR o el código alfanumérico" 
-                    : "Ask the customer to show you the QR code or alphanumeric code"}
+                    ? "Escanea el QR del cliente o ingresa el código manual" 
+                    : "Scan the customer's QR or enter the manual code"}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="code">
+              <CardContent className="px-10 pb-10 space-y-6">
+                <div className="space-y-3">
+                  <Label htmlFor="code" className="text-black/80 font-medium tracking-wide ml-1">
                     {lang === "es" ? "Código de remesa" : "Remittance code"}
                   </Label>
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-3">
                     <Input
                       id="code"
-                      placeholder="ABC123"
+                      placeholder="X8Y2Z4"
                       value={code}
                       onChange={(e) => setCode(e.target.value.toUpperCase())}
                       maxLength={10}
                       onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                      className="text-lg font-mono"
+                      className="h-16 text-2xl font-mono font-bold tracking-[0.4em] bg-black/[0.02] border-black/5 text-black placeholder:text-black/40 rounded-2xl px-6 focus:border-jade/30 shadow-inner"
                     />
-                    <Button onClick={handleSearch} disabled={!code || isLoadingRemittance}>
+                    <Button 
+                      onClick={handleSearch} 
+                      disabled={!code || isLoadingRemittance}
+                      className="h-16 w-16 bg-jade hover:bg-jade/90 text-white rounded-2xl shadow-xl shadow-jade/20 transition-all"
+                    >
                       {isLoadingRemittance ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader2 className="h-6 w-6 animate-spin" />
                       ) : (
-                        <Search className="h-4 w-4" />
+                        <Search className="h-6 w-6" />
                       )}
                     </Button>
                   </div>
                 </div>
 
                 {!remittance && searchCode && !isLoadingRemittance && (
-                  <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-4 text-sm text-destructive">
+                  <div className="rounded-2xl bg-red-500/5 border border-red-500/10 p-4 text-sm text-red-500 font-medium animate-fade-in flex items-center gap-2">
+                    <Search className="h-4 w-4" />
                     {lang === "es" 
                       ? "Código no encontrado. Verifica e intenta nuevamente." 
                       : "Code not found. Please verify and try again."}
@@ -235,89 +232,84 @@ const Comercio = () => {
             </Card>
 
             {remittance && (
-              <Card className="bg-gradient-to-br from-card to-card/50 border-primary/20 shadow-lg">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <CardTitle>
+              <Card className="bg-white border border-black/5 shadow-[0_40px_100px_rgba(0,0,0,0.08)] rounded-[3rem] overflow-hidden animate-slide-up">
+                <CardHeader className="pt-10 px-10">
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="text-2xl font-black text-black tracking-tight uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
                       {lang === "es" ? "Detalles del retiro" : "Withdrawal details"}
                     </CardTitle>
-                    <Badge className={getRemittanceStatusColor(remittance.status)}>
+                    <Badge className={`${getRemittanceStatusColor(remittance.status)} px-4 py-1.5 rounded-full text-sm font-black tracking-widest uppercase`}>
                       {getRemittanceStatusText(remittance.status)}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Código */}
-                  <div className="bg-gradient-primary text-primary-foreground p-4 rounded-lg text-center">
-                    <div className="text-sm opacity-90 mb-1">
-                      {lang === "es" ? "Código" : "Code"}
+                <CardContent className="px-10 pb-10 space-y-8">
+                  {/* Código Destacado */}
+                  <div className="bg-gray-50 border border-black/5 p-6 rounded-[2rem] text-center shadow-inner">
+                    <div className="text-sm text-black/40 font-bold uppercase tracking-[0.3em] mb-1">
+                      {lang === "es" ? "Identificador" : "Identifier"}
                     </div>
-                    <div className="text-3xl font-bold font-mono tracking-wider">
+                    <div className="text-4xl font-black font-mono tracking-widest text-jade">
                       {searchCode}
                     </div>
                   </div>
 
                   {/* Montos */}
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <div className="text-sm text-muted-foreground mb-1">
+                    <div className="bg-black/[0.01] border border-black/5 p-6 rounded-[2rem] shadow-inner">
+                      <div className="text-sm text-black/60 font-bold uppercase tracking-widest mb-2">
                         {lang === "es" ? "Monto enviado" : "Amount sent"}
                       </div>
-                      <div className="text-2xl font-bold text-foreground">
+                      <div className="text-2xl font-bold text-black">
                         {formatUSDC(remittance.amountUSD)}
                       </div>
                     </div>
-                    <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/20">
-                      <div className="text-sm text-green-600 dark:text-green-400 mb-1">
-                        {lang === "es" ? "Entregar en efectivo" : "Deliver in cash"}
+                    <div className="bg-jade/5 p-6 rounded-[2rem] border border-jade/20 shadow-inner">
+                      <div className="text-sm text-jade/60 font-bold uppercase tracking-widest mb-2">
+                        {lang === "es" ? "A entregar en efectivo" : "To deliver in cash"}
                       </div>
-                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                      <div className="text-3xl font-black text-jade tracking-tighter">
                         {formatMXNFromContract(remittance.amountMXN)}
                       </div>
                     </div>
                   </div>
 
-                  {/* Destinatario */}
-                  <div className="space-y-2">
-                    <Label className="text-muted-foreground">
-                      {lang === "es" ? "Cliente (destinatario)" : "Customer (recipient)"}
-                    </Label>
-                    <div className="bg-muted/30 p-3 rounded-lg">
-                      <ENSDisplay address={remittance.recipient} />
+                  {/* Participantes */}
+                  <div className="space-y-4 pt-4 border-t border-black/5">
+                    <div className="flex justify-between items-center px-2">
+                      <span className="text-black/40 text-sm font-black uppercase tracking-widest">{lang === "es" ? "Cliente" : "Customer"}</span>
+                      <div className="text-black font-medium text-sm">
+                        <ENSDisplay address={remittance.recipient} />
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Remitente */}
-                  <div className="space-y-2">
-                    <Label className="text-muted-foreground">
-                      {lang === "es" ? "Remitente" : "Sender"}
-                    </Label>
-                    <div className="bg-muted/30 p-3 rounded-lg">
-                      <ENSDisplay address={remittance.sender} />
+                    <div className="flex justify-between items-center px-2">
+                      <span className="text-black/40 text-sm font-black uppercase tracking-widest">{lang === "es" ? "Remitente" : "Sender"}</span>
+                      <div className="text-black font-medium text-sm">
+                        <ENSDisplay address={remittance.sender} />
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Fecha */}
-                  <div className="text-sm text-muted-foreground">
-                    {lang === "es" ? "Enviada el" : "Sent on"}: {formatTimestamp(remittance.timestamp)}
+                    <div className="flex justify-between items-center px-2">
+                      <span className="text-black/40 text-sm font-black uppercase tracking-widest">{lang === "es" ? "Enviada" : "Sent"}</span>
+                      <span className="text-black font-medium text-sm">{formatTimestamp(remittance.timestamp)}</span>
+                    </div>
                   </div>
 
                   {/* Botón de procesar */}
                   {canClaim && (
                     <Button 
-                      className="w-full bg-gradient-primary h-14 text-lg" 
+                      className="w-full h-20 bg-jade hover:bg-jade/90 text-white text-xl font-black rounded-[2rem] shadow-2xl shadow-jade/20 transition-all hover:scale-[1.02] uppercase tracking-widest" 
                       onClick={handleClaim}
                       disabled={isClaiming}
                     >
                       {isClaiming ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                          {lang === "es" ? "Procesando..." : "Processing..."}
+                          <Loader2 className="mr-3 h-6 w-6 animate-spin" />
+                          {lang === "es" ? "Validando en Blockchain..." : "Validating on Blockchain..."}
                         </>
                       ) : (
                         <>
-                          <Store className="mr-2 h-5 w-5" />
-                          {lang === "es" ? "Procesar retiro y entregar efectivo" : "Process withdrawal and deliver cash"}
+                          <Scan className="mr-3 h-6 w-6" />
+                          {lang === "es" ? "Procesar y Liquidar" : "Process and Liquidate"}
                         </>
                       )}
                     </Button>
@@ -325,38 +317,29 @@ const Comercio = () => {
 
                   {/* Ya procesado */}
                   {alreadyClaimed && (
-                    <div className="rounded-lg bg-success/10 border border-success/20 p-4">
-                      <div className="flex items-center gap-2 text-success mb-2">
-                        <CheckCircle2 className="h-5 w-5" />
-                        <p className="font-bold">
-                          {lang === "es" ? "¡Retiro ya procesado!" : "Withdrawal already processed!"}
-                        </p>
+                    <div className="rounded-[2rem] bg-jade/5 border border-jade/20 p-8 text-center animate-fade-in shadow-inner">
+                      <div className="h-16 w-16 bg-jade rounded-full mx-auto flex items-center justify-center shadow-xl shadow-jade/10 mb-4">
+                        <CheckCircle2 className="h-10 w-10 text-white" />
                       </div>
+                      <h4 className="text-2xl font-black text-jade mb-2 uppercase">
+                        {lang === "es" ? "Retiro Liquidado" : "Withdrawal Liquidated"}
+                      </h4>
+                      <p className="text-black/60 mb-6 font-light">
+                        {lang === "es" 
+                          ? "La transacción ha sido confirmada. Los fondos están en tu wallet." 
+                          : "Transaction confirmed. Funds are in your wallet."}
+                      </p>
                       {claimHash && (
                         <a
                           href={`https://sepolia.scrollscan.com/tx/${claimHash}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-primary hover:underline flex items-center gap-1"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:shadow-md rounded-xl text-sm font-medium text-jade transition-all border border-black/5"
                         >
-                          {lang === "es" ? "Ver transacción" : "View transaction"}
-                          <ExternalLink className="h-3 w-3" />
+                          {lang === "es" ? "Ver comprobante digital" : "View digital receipt"}
+                          <ExternalLink className="h-4 w-4" />
                         </a>
                       )}
-                    </div>
-                  )}
-
-                  {/* No se puede procesar */}
-                  {!canClaim && !alreadyClaimed && remittance && (
-                    <div className="rounded-lg bg-muted border p-4 text-sm text-center text-muted-foreground">
-                      {!isConnected 
-                        ? (lang === "es" 
-                            ? "Conecta tu wallet para procesar el retiro" 
-                            : "Connect your wallet to process the withdrawal")
-                        : (lang === "es" 
-                            ? "Esta remesa no está disponible para retiro" 
-                            : "This remittance is not available for withdrawal")
-                      }
                     </div>
                   )}
                 </CardContent>
@@ -365,119 +348,109 @@ const Comercio = () => {
           </TabsContent>
 
           {/* TAB: Mi Comercio */}
-          <TabsContent value="register" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  {lang === "es" ? "Información del comercio" : "Business information"}
+          <TabsContent value="register" className="space-y-8 animate-fade-in">
+            <Card className="bg-white border border-black/5 shadow-[0_20px_60px_rgba(0,0,0,0.03)] rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="pt-10 px-10">
+                <CardTitle className="text-2xl font-black text-black tracking-tight uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
+                  {lang === "es" ? "Gestión de Comercio" : "Business Management"}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-black/60">
                   {lang === "es" 
-                    ? "Registra tu comercio para poder procesar retiros de remesas" 
-                    : "Register your business to process remittance withdrawals"}
+                    ? "Configura tu punto de retiro y consulta tu estado" 
+                    : "Configure your withdrawal point and check your status"}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="px-10 pb-10 space-y-8">
                 {!isConnected ? (
-                  <Alert>
-                    <AlertDescription>
+                  <div className="text-center py-12">
+                    <div className="h-16 w-16 bg-black/[0.02] rounded-full mx-auto flex items-center justify-center mb-6">
+                      <RefreshCw className="h-8 w-8 text-black/10" />
+                    </div>
+                    <p className="text-xl text-black/50 font-light italic" style={{ fontFamily: 'Caudex, serif' }}>
                       {lang === "es" 
-                        ? "Conecta tu wallet para continuar" 
-                        : "Connect your wallet to continue"}
-                    </AlertDescription>
-                  </Alert>
+                        ? "Conecta tu wallet para gestionar tu comercio" 
+                        : "Connect your wallet to manage your business"}
+                    </p>
+                  </div>
                 ) : isCashoutPoint ? (
-                  <Alert className="border-success/20 bg-success/10">
-                    <CheckCircle2 className="h-4 w-4 text-success" />
-                    <AlertDescription className="text-success">
-                      <div className="font-bold mb-2">
-                        {lang === "es" ? "✓ Comercio registrado y activo" : "✓ Business registered and active"}
+                  <div className="bg-jade/5 border border-jade/20 rounded-[2.5rem] p-10 shadow-inner">
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="h-14 w-14 bg-jade rounded-full flex items-center justify-center shadow-lg shadow-jade/10">
+                        <CheckCircle2 className="h-8 w-8 text-white" />
                       </div>
-                      {cashoutPoint && (
-                        <div className="space-y-1 text-sm">
-                          {cashoutPoint.name && (
-                            <div>
-                              <span className="opacity-75">{lang === "es" ? "Nombre:" : "Name:"}</span>{" "}
-                              {cashoutPoint.name}
-                            </div>
-                          )}
-                          {cashoutPoint.location && (
-                            <div>
-                              <span className="opacity-75">{lang === "es" ? "Ubicación:" : "Location:"}</span>{" "}
-                              {cashoutPoint.location}
-                            </div>
-                          )}
-                          {cashoutPoint.feePct !== undefined && (
-                            <div>
-                              <span className="opacity-75">{lang === "es" ? "Comisión:" : "Fee:"}</span>{" "}
-                              {(cashoutPoint.feePct / 100).toFixed(2)}%
-                            </div>
-                          )}
+                      <div>
+                        <h4 className="text-xl font-black text-jade uppercase">{lang === "es" ? "Comercio Autorizado" : "Authorized Business"}</h4>
+                        <p className="text-black/60 text-sm font-medium">{address}</p>
+                      </div>
+                    </div>
+                    
+                    {cashoutPoint && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-jade/10">
+                        <div className="space-y-1">
+                          <span className="text-black/40 text-xs font-black uppercase tracking-widest">{lang === "es" ? "Nombre Comercial" : "Business Name"}</span>
+                          <p className="text-black font-bold text-lg">{cashoutPoint.name}</p>
                         </div>
-                      )}
-                    </AlertDescription>
-                  </Alert>
+                        <div className="space-y-1">
+                          <span className="text-black/40 text-xs font-black uppercase tracking-widest">{lang === "es" ? "Ubicación" : "Location"}</span>
+                          <p className="text-black font-bold text-lg">{cashoutPoint.location}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ) : (
-                  <>
-                    <Alert className="border-blue-500/20 bg-blue-500/10">
-                      <Store className="h-4 w-4 text-blue-500" />
-                      <AlertDescription className="text-blue-500">
-                        {lang === "es" 
-                          ? "Registra tu comercio para empezar a procesar retiros de remesas. Es gratis y solo toma un momento." 
-                          : "Register your business to start processing remittance withdrawals. It's free and only takes a moment."}
-                      </AlertDescription>
-                    </Alert>
+                  <div className="space-y-8">
+                    <div className="bg-oro/5 border border-oro/20 rounded-[2rem] p-8">
+                      <div className="flex gap-4">
+                        <Store className="h-8 w-8 text-oro shrink-0" />
+                        <div>
+                          <h4 className="text-oro font-black uppercase mb-1">{lang === "es" ? "Únete a la Red Tlalix" : "Join the Tlalix Network"}</h4>
+                          <p className="text-black/60 text-sm leading-relaxed">
+                            {lang === "es" 
+                              ? "Convierte tu negocio en un punto de retiro. Aumenta tu flujo de clientes y gana comisiones por cada remesa procesada." 
+                              : "Turn your business into a withdrawal point. Increase customer flow and earn commissions for each processed remittance."}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div className="bg-muted/30 p-4 rounded-lg space-y-2 text-sm">
-                      <h3 className="font-semibold">
-                        {lang === "es" ? "¿Cómo funciona?" : "How does it work?"}
-                      </h3>
-                      <ul className="space-y-1 ml-4 list-disc text-muted-foreground">
-                        <li>{lang === "es" ? "Los clientes llegan con un código QR o alfanumérico" : "Customers arrive with a QR or alphanumeric code"}</li>
-                        <li>{lang === "es" ? "Escaneas o ingresas el código en esta plataforma" : "You scan or enter the code on this platform"}</li>
-                        <li>{lang === "es" ? "Procesas el retiro (los fondos llegan a tu wallet)" : "You process the withdrawal (funds arrive to your wallet)"}</li>
-                        <li>{lang === "es" ? "Entregas el efectivo equivalente al cliente" : "You deliver the equivalent cash to the customer"}</li>
-                      </ul>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {[
+                        { title: "Escanea", desc: "Valida el QR del cliente" },
+                        { title: "Liquida", desc: "Recibe fondos en tu wallet" },
+                        { title: "Entrega", desc: "Da el efectivo al cliente" },
+                        { title: "Gana", desc: "Obtén beneficios por servicio" }
+                      ].map((item, i) => (
+                        <div key={i} className="bg-black/[0.01] border border-black/5 p-4 rounded-2xl flex items-center gap-4">
+                          <div className="h-8 w-8 bg-white border border-black/5 rounded-lg flex items-center justify-center text-sm font-black text-jade shadow-sm">{i+1}</div>
+                          <div>
+                            <p className="text-sm font-black text-black uppercase tracking-tight">{item.title}</p>
+                            <p className="text-sm text-black/60">{item.desc}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
 
                     <Button 
-                      className="w-full bg-gradient-primary h-12" 
+                      className="w-full h-16 bg-black hover:bg-black/90 text-white text-lg font-black rounded-2xl shadow-xl transition-all uppercase tracking-widest" 
                       onClick={handleRegister}
                       disabled={isRegistering}
                     >
                       {isRegistering ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                          {lang === "es" ? "Registrando..." : "Registering..."}
+                          <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                          {lang === "es" ? "Registrando en Scroll..." : "Registering on Scroll..."}
                         </>
                       ) : (
                         <>
-                          <Store className="mr-2 h-5 w-5" />
+                          <Store className="mr-3 h-5 w-5" />
                           {lang === "es" ? "Registrar mi comercio" : "Register my business"}
                         </>
                       )}
                     </Button>
-                  </>
+                  </div>
                 )}
               </CardContent>
             </Card>
-
-            {isCashoutPoint && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    {lang === "es" ? "Estadísticas" : "Statistics"}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    {lang === "es" 
-                      ? "Próximamente: estadísticas de retiros procesados" 
-                      : "Coming soon: processed withdrawals statistics"}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
           </TabsContent>
         </Tabs>
       </div>
@@ -486,3 +459,6 @@ const Comercio = () => {
 };
 
 export default Comercio;
+
+
+

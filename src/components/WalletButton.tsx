@@ -23,7 +23,7 @@ export const WalletButton = () => {
 
   if (isConnecting) {
     return (
-      <Button size="sm" disabled className="bg-[hsl(var(--color-celeste))] text-white">
+      <Button size="sm" disabled className="bg-jade/10 text-jade border border-jade/20">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         {lang === 'es' ? 'Conectando...' : 'Connecting...'}
       </Button>
@@ -34,21 +34,21 @@ export const WalletButton = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" className="bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white font-mono border border-[hsl(var(--color-celeste))]">
-            <Wallet className="mr-2 h-4 w-4" />
+          <Button size="sm" className="bg-black/5 hover:bg-black/10 text-black font-mono border border-black/10 shadow-none">
+            <Wallet className="mr-2 h-4 w-4 text-jade" />
             {formatAddress(address)}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 bg-[hsl(var(--color-azul-mar))] border-white/20">
-          <DropdownMenuLabel className="text-white">
+        <DropdownMenuContent align="end" className="w-56 bg-white border border-black/5 shadow-2xl rounded-2xl p-2 z-[110]">
+          <DropdownMenuLabel className="text-black/60 text-xs font-black uppercase tracking-widest px-3 py-2">
             {lang === 'es' ? 'Mi Wallet' : 'My Wallet'}
           </DropdownMenuLabel>
-          <DropdownMenuSeparator className="bg-white/10" />
-          <DropdownMenuItem className="font-mono text-xs text-white focus:bg-white/10 focus:text-white">
-            {address}
+          <DropdownMenuSeparator className="bg-black/5" />
+          <DropdownMenuItem className="font-mono text-sm text-black/80 focus:bg-jade/5 focus:text-jade rounded-xl cursor-pointer">
+            <div className="truncate w-full">{address}</div>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className="bg-white/10" />
-          <DropdownMenuItem onClick={() => disconnect()} className="text-red-400 focus:bg-white/10 focus:text-red-400">
+          <DropdownMenuSeparator className="bg-black/5" />
+          <DropdownMenuItem onClick={() => disconnect()} className="text-red-500 focus:bg-red-50 focus:text-red-600 rounded-xl cursor-pointer">
             <LogOut className="mr-2 h-4 w-4" />
             {lang === 'es' ? 'Desconectar' : 'Disconnect'}
           </DropdownMenuItem>
@@ -63,7 +63,7 @@ export const WalletButton = () => {
       {({ openConnectModal }) => (
         <Button 
           size="sm" 
-          className="bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white border border-[hsl(var(--color-celeste))]"
+          className="bg-jade hover:bg-jade/90 text-white font-bold border border-jade/10 shadow-lg shadow-jade/20 rounded-xl"
           onClick={openConnectModal}
         >
           <Wallet className="mr-2 h-4 w-4" />
@@ -73,3 +73,5 @@ export const WalletButton = () => {
     </ConnectButton.Custom>
   );
 };
+
+

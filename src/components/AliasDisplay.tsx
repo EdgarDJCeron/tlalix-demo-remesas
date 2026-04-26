@@ -48,19 +48,19 @@ const AliasDisplay = () => {
     <>
       <div className="flex items-center gap-2">
         {userAlias ? (
-          <Badge variant="secondary" className="flex items-center gap-1 bg-white/10 text-white border border-white/20">
+          <Badge variant="secondary" className="flex items-center gap-1 bg-jade/10 text-jade border border-jade/20 px-3 py-1.5 rounded-xl">
             <User className="h-3 w-3" />
-            <span className="font-medium">@{userAlias}</span>
+            <span className="font-bold">@{userAlias}</span>
           </Badge>
         ) : (
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowRegisterModal(true)}
-            className="flex items-center gap-1 bg-white/5 text-white border-white/20 hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-1 bg-black/5 text-black border-black/10 hover:bg-black/10 hover:text-black rounded-xl"
           >
-            <UserPlus className="h-4 w-4" />
-            <span className="hidden sm:inline">
+            <UserPlus className="h-4 w-4 text-oro" />
+            <span className="hidden sm:inline font-bold">
               {lang === "es" ? "Registrar alias" : "Register alias"}
             </span>
           </Button>
@@ -77,3 +77,5 @@ const AliasDisplay = () => {
 };
 
 export default AliasDisplay;
+
+

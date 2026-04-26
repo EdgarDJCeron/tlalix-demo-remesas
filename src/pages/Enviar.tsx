@@ -202,247 +202,244 @@ const Enviar = () => {
     : false;
 
   return (
-    <div className="min-h-screen py-12 relative">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <h1 className="mb-8 text-3xl font-bold text-center text-white animate-fade-in">
+    <div className="min-h-screen py-32 bg-white relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-jade/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-oro/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container mx-auto px-16 max-w-2xl relative z-10">
+        <h1 className="mb-12 text-5xl md:text-6xl font-black text-center text-black animate-fade-in tracking-tighter" style={{ fontFamily: 'Cinzel, serif' }}>
           {lang === "es" ? "Enviar remesa" : "Send remittance"}
         </h1>
 
         {/* Wallet Status */}
-        <div className="mb-6">
+        <div className="mb-8">
           <WalletStatus />
         </div>
 
         {/* Balance Card */}
         {isConnected && (
-          <Card className="mb-6 bg-white/5 backdrop-blur-sm border-white/10 animate-fade-in">
-            <CardContent className="pt-6">
+          <Card className="mb-8 bg-white border border-jade/20 animate-fade-in overflow-hidden shadow-[0_20px_50px_rgba(16,185,129,0.05)]">
+            <CardContent className="pt-8">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm text-white/70">
-                    {lang === "es" ? "Tu balance USDC:" : "Your USDC balance:"}
+                  <p className="text-sm text-black/50 mb-1 font-medium tracking-widest uppercase">
+                    {lang === "es" ? "Tu balance USDC" : "Your USDC balance"}
                   </p>
-                  <p className="text-2xl font-bold text-white">{formatUSDC(balance)}</p>
+                  <p className="text-4xl font-bold text-black tracking-tight">{formatUSDC(balance)}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <Button 
-                    size="sm" 
+                    size="icon" 
                     variant="outline" 
                     onClick={() => refetchBalance()}
-                    className="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/40"
+                    className="h-12 w-12 border-black/5 bg-black/[0.02] text-black hover:bg-black/[0.05] rounded-xl transition-all"
                   >
-                    <RefreshCw className="h-4 w-4" />
+                    <RefreshCw className="h-5 w-5" />
                   </Button>
                   <Button 
-                    size="sm" 
+                    size="lg" 
                     onClick={handleFaucet}
                     disabled={isFaucetLoading}
-                    className="bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white shadow-lg"
+                    className="bg-jade hover:bg-jade/90 text-white shadow-xl shadow-jade/20 rounded-xl px-6 font-bold"
                   >
                     {isFaucetLoading ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="h-5 w-5 animate-spin" />
                     ) : (
-                      lang === "es" ? "Solicitar USDC" : "Request USDC"
+                      lang === "es" ? "Recargar USDC" : "Refill USDC"
                     )}
                   </Button>
                 </div>
               </div>
               {!hasBalance && usd && parseFloat(usd) > 0 && (
-                <p className="mt-2 text-sm text-red-400">
-                  {lang === "es" ? "⚠️ Balance insuficiente" : "⚠️ Insufficient balance"}
-                </p>
+                <div className="mt-4 p-3 bg-red-500/5 border border-red-500/10 rounded-xl flex items-center gap-2">
+                  <XCircle className="h-4 w-4 text-red-500" />
+                  <p className="text-sm text-red-500 font-medium">
+                    {lang === "es" ? "Balance insuficiente" : "Insufficient balance"}
+                  </p>
+                </div>
               )}
             </CardContent>
           </Card>
         )}
 
         {/* Progress Steps */}
-        <div className="mb-8 flex justify-between animate-fade-in">
+        <div className="mb-12 flex justify-between animate-fade-in px-4">
           {[1, 2, 3, 4].map((s) => (
-            <div key={s} className="flex flex-col items-center flex-1">
+            <div key={s} className="flex flex-col items-center relative flex-1">
               <div
-                className={`h-10 w-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
+                className={`h-12 w-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-500 shadow-lg ${
                   step >= s
-                    ? "bg-[hsl(var(--color-celeste))] text-white"
-                    : "bg-white/10 text-white/50 border border-white/20"
+                    ? "bg-jade text-white shadow-jade/20 scale-110"
+                    : "bg-black/[0.02] text-black/40 border border-black/5"
                 }`}
               >
                 {s}
               </div>
-              <span className="mt-2 text-xs text-white/70">
+              <span className={`mt-3 text-sm font-bold tracking-widest uppercase transition-colors duration-500 ${step >= s ? "text-jade" : "text-black/40"}`}>
                 {s === 1 && (lang === "es" ? "Monto" : "Amount")}
-                {s === 2 && (lang === "es" ? "Destinatario" : "Recipient")}
-                {s === 3 && (lang === "es" ? "Confirmación" : "Confirmation")}
-                {s === 4 && (lang === "es" ? "Resultado" : "Result")}
+                {s === 2 && (lang === "es" ? "Destino" : "Target")}
+                {s === 3 && (lang === "es" ? "Confirmar" : "Confirm")}
+                {s === 4 && (lang === "es" ? "Éxito" : "Success")}
               </span>
+              
+              {/* Connector */}
+              {s < 4 && (
+                <div className={`absolute top-6 left-[calc(50%+1.5rem)] w-[calc(100%-3rem)] h-0.5 transition-colors duration-500 ${step > s ? "bg-jade" : "bg-black/5"}`} />
+              )}
             </div>
           ))}
         </div>
 
-        <Card className="bg-white/5 backdrop-blur-sm border-white/10 animate-slide-up">
-          <CardHeader>
-            <CardTitle className="text-white">
-              {step === 1 && (lang === "es" ? "Paso 1: Ingresa el monto" : "Step 1: Enter amount")}
-              {step === 2 && (lang === "es" ? "Paso 2: Destinatario" : "Step 2: Recipient")}
-              {step === 3 && (lang === "es" ? "Paso 3: Confirmar detalles" : "Step 3: Confirm details")}
-              {step === 4 && (lang === "es" ? "Paso 4: Resultado" : "Step 4: Result")}
+        <Card className="bg-white animate-slide-up border border-black/5 shadow-[0_40px_100px_rgba(0,0,0,0.08)] rounded-[2.5rem] overflow-hidden">
+          <CardHeader className="pt-10 px-10">
+            <CardTitle className="text-3xl font-bold text-black tracking-tight" style={{ fontFamily: 'Forum, serif' }}>
+              {step === 1 && (lang === "es" ? "Define el monto del envío" : "Define send amount")}
+              {step === 2 && (lang === "es" ? "Identifica al destinatario" : "Identify recipient")}
+              {step === 3 && (lang === "es" ? "Revisa los detalles" : "Review details")}
+              {step === 4 && (lang === "es" ? "Estado de la transacción" : "Transaction status")}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="p-10 pt-4 space-y-8">
             {/* Step 1: Amount */}
             {step === 1 && (
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="usd" className="text-white">{lang === "es" ? "Monto en USD" : "Amount in USD"}</Label>
-                  <Input
-                    id="usd"
-                    type="number"
-                    placeholder="100"
-                    value={usd}
-                    onChange={(e) => setUsd(e.target.value)}
-                    disabled={!isConnected}
-                    className="bg-white/5 border-white/20 text-white placeholder:text-white/70"
-                  />
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <Label htmlFor="usd" className="text-black/60 font-medium tracking-wide ml-1">{lang === "es" ? "Monto en USDC" : "Amount in USDC"}</Label>
+                  <div className="relative group">
+                    <Input
+                      id="usd"
+                      type="number"
+                      placeholder="0.00"
+                      value={usd}
+                      onChange={(e) => setUsd(e.target.value)}
+                      disabled={!isConnected}
+                      className="bg-black/[0.02] border-black/5 text-black placeholder:text-black/40 h-20 text-3xl font-bold rounded-2xl px-6 focus:border-jade/30 transition-all shadow-inner"
+                    />
+                    <div className="absolute right-6 top-1/2 -translate-y-1/2 text-black/40 font-bold text-xl pointer-events-none group-focus-within:text-jade transition-colors">
+                      USDC
+                    </div>
+                  </div>
                   {!isConnected && (
-                    <p className="mt-2 text-sm text-white/70">
-                      {lang === "es" ? "Conecta tu wallet para continuar" : "Connect your wallet to continue"}
+                    <p className="mt-2 text-sm text-jade italic font-light">
+                      {lang === "es" ? "Conecta tu wallet para iniciar el viaje" : "Connect your wallet to start the journey"}
                     </p>
                   )}
                 </div>
                 {usd && parseFloat(usd) > 0 && (
-                  <div className="rounded-lg bg-white/5 border border-white/10 p-4 space-y-2">
-                    <div className="flex justify-between text-white">
-                      <span>{lang === "es" ? "Monto:" : "Amount:"}</span>
-                      <span className="font-medium">{formatUSDC(BigInt(Math.floor(parseFloat(usd) * 1000000)))}</span>
+                  <div className="rounded-[2rem] bg-black/[0.01] border border-black/5 p-8 space-y-4 shadow-inner">
+                    <div className="flex justify-between text-black/60 font-medium">
+                      <span>{lang === "es" ? "Monto bruto:" : "Gross amount:"}</span>
+                      <span className="text-black font-bold">{formatUSDC(BigInt(Math.floor(parseFloat(usd) * 1000000)))}</span>
                     </div>
-                    <div className="flex justify-between text-sm text-white/70">
-                      <span>{lang === "es" ? "Comisión:" : "Fee:"}</span>
-                      <span>{formatUSDC(fee)}</span>
+                    <div className="flex justify-between text-black/60 font-medium">
+                      <span>{lang === "es" ? "Comisión de red (1.5%):" : "Network fee (1.5%):"}</span>
+                      <span className="text-oro font-bold">{formatUSDC(fee)}</span>
                     </div>
-                    <div className="border-t border-white/10 pt-2 flex justify-between text-2xl font-bold text-[hsl(var(--color-celeste))]">
-                      <span>{lang === "es" ? "Recibirá:" : "Will receive:"}</span>
-                      <span>{formatMXN(amountMXN)}</span>
+                    <div className="border-t border-black/5 pt-4 flex justify-between items-end">
+                      <div>
+                        <span className="text-black/40 text-sm font-bold uppercase tracking-widest">{lang === "es" ? "Recibirán en México:" : "Will receive in Mexico:"}</span>
+                        <div className="text-5xl font-black text-jade tracking-tighter mt-1">{formatMXN(amountMXN)}</div>
+                      </div>
                     </div>
                   </div>
                 )}
                 <Button 
                   onClick={handleNext} 
                   disabled={!isConnected || !usd || parseFloat(usd) <= 0 || !hasBalance} 
-                  className="w-full bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white transition-all duration-300 hover:scale-105"
+                  className="w-full h-18 py-8 bg-jade hover:bg-jade/90 text-white text-xl font-bold rounded-2xl transition-all duration-500 hover:scale-[1.02] shadow-2xl shadow-jade/20 group"
                 >
-                  {lang === "es" ? "Continuar" : "Continue"} <ArrowRight className="ml-2 h-4 w-4" />
+                  {lang === "es" ? "Siguiente paso" : "Next step"} <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
                 </Button>
               </div>
             )}
 
             {/* Step 2: Recipient */}
             {step === 2 && (
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="recipient" className="text-white">
-                    {lang === "es" ? "Alias del destinatario" : "Recipient Alias"}
+              <div className="space-y-8">
+                <div className="space-y-3">
+                  <Label htmlFor="recipient" className="text-black/60 font-medium tracking-wide ml-1">
+                    {lang === "es" ? "Alias del destinatario (Ej: @mama)" : "Recipient Alias (Ex: @mom)"}
                   </Label>
-                  <div className="relative">
+                  <div className="relative group">
                     <Input
                       id="recipient"
-                      placeholder={lang === "es" ? "@mama" : "@mom"}
+                      placeholder="@"
                       value={recipientInput}
                       onChange={(e) => setRecipientInput(e.target.value)}
-                      className="bg-white/5 border-white/20 text-white placeholder:text-white/70"
+                      className="bg-black/[0.02] border-black/5 text-black placeholder:text-black/40 h-16 text-xl font-medium rounded-2xl px-6 focus:border-jade/30 shadow-inner"
                     />
                     {isSearchingAlias && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <Loader2 className="h-4 w-4 animate-spin text-[hsl(var(--color-celeste))]" />
+                      <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                        <Loader2 className="h-6 w-6 animate-spin text-jade" />
                       </div>
                     )}
                   </div>
-                  <p className="mt-1 text-xs text-white/70">
-                    {lang === "es" 
-                      ? "El destinatario debe tener un alias registrado. Ejemplo: @mama" 
-                      : "Recipient must have a registered alias. Example: @mom"}
-                  </p>
                   
-                  {/* Alias found */}
+                  {/* Alias indicators */}
                   {recipientInput.startsWith("@") && recipient && (
-                    <div className="mt-2 p-2 bg-green-500/10 border border-green-500/30 rounded-lg">
-                      <p className="text-xs text-lime-300">
-                        ✓ {lang === "es" ? "Alias encontrado:" : "Alias found:"} 
-                        <span className="font-mono ml-1">{recipient.slice(0, 6)}...{recipient.slice(-4)}</span>
-                      </p>
-                    </div>
-                  )}
-                  
-                  {/* Alias not found */}
-                  {recipientInput.startsWith("@") && !recipient && recipientInput.length > 3 && !isSearchingAlias && (
-                    <div className="mt-2 p-2 bg-red-500/10 border border-red-500/30 rounded-lg">
-                      <p className="text-xs text-red-400">
-                        ✗ {lang === "es" ? "Alias no encontrado. El destinatario debe registrarse primero." : "Alias not found. Recipient must register first."}
-                      </p>
-                    </div>
-                  )}
-                  
-                  {/* Must start with @ */}
-                  {!recipientInput.startsWith("@") && recipientInput.length > 0 && (
-                    <div className="mt-2 p-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-                      <p className="text-xs text-yellow-400">
-                        ⚠️ {lang === "es" 
-                          ? "El alias debe comenzar con @ (ejemplo: @mama)" 
-                          : "Alias must start with @ (example: @mom)"}
+                    <div className="p-4 bg-jade/5 border border-jade/10 rounded-2xl flex items-center gap-3 animate-fade-in">
+                      <div className="h-8 w-8 bg-jade/10 rounded-full flex items-center justify-center">
+                        <CheckCircle2 className="h-5 w-5 text-jade" />
+                      </div>
+                      <p className="text-sm text-jade font-bold">
+                        {lang === "es" ? "Destinatario validado:" : "Recipient validated:"} 
+                        <span className="font-mono ml-1 opacity-60">{recipient.slice(0, 10)}...{recipient.slice(-6)}</span>
                       </p>
                     </div>
                   )}
                 </div>
-                <div>
-                  <Label htmlFor="code" className="text-white">
-                    {lang === "es" ? "Código de retiro" : "Withdrawal code"}
+
+                <div className="space-y-3">
+                  <Label htmlFor="code" className="text-black/60 font-medium tracking-wide ml-1">
+                    {lang === "es" ? "Código de seguridad de 6 dígitos" : "6-digit security code"}
                   </Label>
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     <Input
                       id="code"
-                      placeholder="ABC123"
+                      placeholder="X8Y2Z4"
                       value={code}
                       onChange={(e) => setCode(e.target.value.toUpperCase())}
                       maxLength={6}
-                      className="bg-white/5 border-white/20 text-white placeholder:text-white/70"
+                      className="bg-black/[0.02] border-black/5 text-black h-16 text-2xl font-mono font-bold tracking-[0.5em] rounded-2xl px-6 focus:border-jade/30 flex-1 shadow-inner"
                     />
                     <Button 
                       onClick={handleGenerateCode} 
                       variant="outline"
-                      className="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/40"
+                      className="h-16 px-6 border-black/5 bg-black/[0.02] text-black hover:bg-black/[0.05] rounded-2xl font-bold"
                     >
                       {lang === "es" ? "Generar" : "Generate"}
                     </Button>
                   </div>
                   {code && (
-                    <p className="mt-1 text-xs">
+                    <div className="px-1">
                       {isAvailable ? (
-                        <span className="text-lime-300">✓ {lang === "es" ? "Código disponible" : "Code available"}</span>
+                        <span className="text-jade text-sm font-bold flex items-center gap-1">
+                          <CheckCircle2 className="h-3 w-3" /> {lang === "es" ? "Código disponible" : "Code available"}
+                        </span>
                       ) : (
-                        <span className="text-red-400">✗ {lang === "es" ? "Código no disponible" : "Code not available"}</span>
+                        <span className="text-red-500 text-sm font-bold flex items-center gap-1">
+                          <XCircle className="h-3 w-3" /> {lang === "es" ? "Código ya en uso" : "Code already in use"}
+                        </span>
                       )}
-                    </p>
+                    </div>
                   )}
                 </div>
-                <div className="flex gap-2">
+
+                <div className="flex gap-4 pt-4">
                   <Button 
-                    variant="outline" 
+                    variant="ghost" 
                     onClick={() => setStep(1)} 
-                    className="flex-1 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/40"
+                    className="flex-1 h-16 text-black/60 hover:text-black hover:bg-black/[0.02] rounded-2xl font-bold"
                   >
                     {lang === "es" ? "Atrás" : "Back"}
                   </Button>
                   <Button 
                     onClick={handleNext} 
-                    disabled={
-                      !recipient || 
-                      !code || 
-                      code.length < 6 || 
-                      !isAvailable ||
-                      !recipientInput.startsWith("@") // Must be an alias
-                    } 
-                    className="flex-1 bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white transition-all duration-300 hover:scale-105 shadow-lg"
+                    disabled={!recipient || !code || code.length < 6 || !isAvailable || !recipientInput.startsWith("@")} 
+                    className="flex-[2] h-16 bg-jade hover:bg-jade/90 text-white font-bold rounded-2xl shadow-2xl shadow-jade/20"
                   >
-                    {lang === "es" ? "Continuar" : "Continue"} <ArrowRight className="ml-2 h-4 w-4" />
+                    {lang === "es" ? "Continuar" : "Continue"}
                   </Button>
                 </div>
               </div>
@@ -450,71 +447,69 @@ const Enviar = () => {
 
             {/* Step 3: Confirmation */}
             {step === 3 && (
-              <div className="space-y-4">
-                <div className="rounded-lg border border-white/10 bg-white/5 p-4 space-y-3">
-                  <div className="flex justify-between text-white">
-                    <span className="text-white/70">{lang === "es" ? "Monto:" : "Amount:"}</span>
-                    <span className="font-medium">{formatUSDC(BigInt(Math.floor(parseFloat(usd) * 1000000)))}</span>
+              <div className="space-y-8">
+                <div className="rounded-[2.5rem] bg-black/[0.02] border border-black/5 p-8 space-y-6 shadow-inner">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-2 border-b border-black/5">
+                      <span className="text-black/60 font-medium uppercase tracking-widest text-sm">{lang === "es" ? "Destinatario" : "Recipient"}</span>
+                      <span className="text-black font-bold">{recipientInput}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-black/5">
+                      <span className="text-black/60 font-medium uppercase tracking-widest text-sm">{lang === "es" ? "Monto Envío" : "Send Amount"}</span>
+                      <span className="text-black font-bold">{usd} USDC</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-black/5">
+                      <span className="text-black/60 font-medium uppercase tracking-widest text-sm">{lang === "es" ? "Comisión" : "Fee"}</span>
+                      <span className="text-oro font-bold">{formatUSDC(fee)}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-black/5">
+                      <span className="text-black/60 font-medium uppercase tracking-widest text-sm">{lang === "es" ? "Código" : "Code"}</span>
+                      <span className="text-jade font-mono font-bold tracking-widest">{code}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-white">
-                    <span className="text-white/70">{lang === "es" ? "Comisión:" : "Fee:"}</span>
-                    <span className="font-medium">{formatUSDC(fee)}</span>
-                  </div>
-                  <div className="flex justify-between text-white">
-                    <span className="text-white/70">{lang === "es" ? "Destinatario:" : "Recipient:"}</span>
-                    <span className="font-medium text-sm">{recipient}</span>
-                  </div>
-                  <div className="flex justify-between text-white">
-                    <span className="text-white/70">{lang === "es" ? "Código:" : "Code:"}</span>
-                    <span className="font-medium font-mono">{code}</span>
-                  </div>
-                  <div className="border-t border-white/10 pt-3 flex justify-between text-lg font-bold">
-                    <span className="text-white">{lang === "es" ? "Recibirá:" : "Will receive:"}</span>
-                    <span className="text-[hsl(var(--color-celeste))]">{formatMXN(amountMXN)}</span>
+                  
+                  <div className="pt-4 text-center">
+                    <p className="text-black/60 text-sm font-bold uppercase tracking-widest mb-1">{lang === "es" ? "Recibirán exactamente" : "They will receive exactly"}</p>
+                    <div className="text-6xl font-black text-black tracking-tighter">{formatMXN(amountMXN)}</div>
                   </div>
                 </div>
 
-                {/* Approval & Send Buttons */}
-                <div className="space-y-2">
-                  {!isApproved && (
+                {/* Actions */}
+                <div className="space-y-4">
+                  {!isApproved ? (
                     <Button 
                       onClick={handleApprove} 
                       disabled={isApproving}
-                      className="w-full bg-white/10 border border-white/20 hover:bg-white/20 text-white"
-                      variant="outline"
+                      className="w-full h-20 bg-white border border-jade/30 text-jade hover:bg-jade/5 rounded-2xl text-xl font-bold transition-all shadow-lg"
                     >
                       {isApproving ? (
                         <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {lang === "es" ? "Aprobando..." : "Approving..."}
+                          <Loader2 className="mr-3 h-6 w-6 animate-spin" />
+                          {lang === "es" ? "Autorizando USDC..." : "Authorizing USDC..."}
                         </>
                       ) : (
                         <>1. {lang === "es" ? "Aprobar USDC" : "Approve USDC"}</>
                       )}
                     </Button>
-                  )}
-                  
-                  {isApproved && (
-                    <div className="p-3 bg-green-500/10 text-lime-300 border border-green-500/30 rounded-lg text-sm flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4" />
-                      {lang === "es" ? "USDC aprobado" : "USDC approved"}
+                  ) : (
+                    <div className="h-20 bg-jade/5 border border-jade/30 rounded-2xl flex items-center justify-center gap-3 animate-fade-in">
+                      <CheckCircle2 className="h-6 w-6 text-jade" />
+                      <span className="text-xl font-bold text-jade">{lang === "es" ? "USDC Autorizado" : "USDC Authorized"}</span>
                     </div>
                   )}
 
                   <Button 
                     onClick={handleConfirm} 
                     disabled={!isApproved || isCreating}
-                    className="w-full bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white transition-all duration-300 hover:scale-105"
+                    className="w-full h-20 bg-jade hover:bg-jade/90 text-white text-2xl font-bold rounded-2xl shadow-2xl shadow-jade/30 transition-all hover:scale-[1.02]"
                   >
                     {isCreating ? (
                       <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        {lang === "es" ? "Enviando..." : "Sending..."}
+                        <Loader2 className="mr-3 h-8 w-8 animate-spin" />
+                        {lang === "es" ? "Procesando..." : "Processing..."}
                       </>
                     ) : (
-                      <>
-                        {isApproved ? "2. " : ""}{lang === "es" ? "Confirmar envío" : "Confirm send"}
-                      </>
+                      <>{isApproved ? "2. " : ""}{lang === "es" ? "Confirmar Envío" : "Confirm Send"}</>
                     )}
                   </Button>
                 </div>
@@ -522,142 +517,106 @@ const Enviar = () => {
                 <Button 
                   variant="ghost" 
                   onClick={() => setStep(2)} 
-                  className="w-full text-white hover:bg-white/10"
+                  className="w-full h-12 text-black/50 hover:text-black hover:bg-black/[0.02] rounded-xl font-bold"
                 >
-                  {lang === "es" ? "← Atrás" : "← Back"}
+                  {lang === "es" ? "← Corregir datos" : "← Edit details"}
                 </Button>
               </div>
             )}
 
             {/* Step 4: Result */}
             {step === 4 && (
-              <div className="space-y-6 text-center">
+              <div className="space-y-10 text-center py-6">
                 {status === "processing" && (
-                  <div className="py-8">
-                    <Loader2 className="h-16 w-16 mx-auto animate-spin text-[hsl(var(--color-celeste))]" />
-                    <p className="mt-4 text-lg font-medium text-white">
-                      {lang === "es" ? "Procesando transacción en blockchain..." : "Processing blockchain transaction..."}
-                    </p>
-                    <p className="mt-2 text-sm text-white/70">
-                      {lang === "es" ? "Esto puede tomar unos momentos" : "This may take a few moments"}
-                    </p>
+                  <div className="animate-pulse space-y-6">
+                    <div className="relative h-32 w-32 mx-auto">
+                      <Loader2 className="h-32 w-32 animate-spin text-jade opacity-20" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <RefreshCw className="h-12 w-12 text-jade animate-reverse-spin" />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-3xl font-bold text-black mb-2">
+                        {lang === "es" ? "Escribiendo en la Blockchain" : "Writing to Blockchain"}
+                      </h3>
+                      <p className="text-black/60 text-lg font-light italic">
+                        {lang === "es" ? "Tu dinero está viajando al Mictlán..." : "Your money is traveling to Mictlan..."}
+                      </p>
+                    </div>
                   </div>
                 )}
 
                 {status === "success" && txHash && (
-                  <div className="space-y-4">
-                    <CheckCircle2 className="h-16 w-16 mx-auto text-[hsl(var(--color-celeste))] animate-fade-in" />
-                    <h3 className="text-2xl font-bold text-[hsl(var(--color-celeste))] animate-slide-up">
-                      {lang === "es" ? "¡Remesa enviada!" : "Remittance sent!"}
+                  <div className="space-y-8 animate-fade-in">
+                    <div className="h-24 w-24 bg-jade rounded-full mx-auto flex items-center justify-center shadow-[0_20px_50px_rgba(16,185,129,0.3)]">
+                      <CheckCircle2 className="h-14 w-14 text-white" />
+                    </div>
+                    
+                    <h3 className="text-4xl font-black text-black tracking-tight">
+                      {lang === "es" ? "¡Envío Exitoso!" : "Transfer Successful!"}
                     </h3>
                     
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-4 animate-fade-in">
-                      {/* QR Code Real */}
-                      <div className="flex justify-center bg-white p-4 rounded-lg">
-                        <QRCode 
-                          value={`https://tlalix.app/r/${code}`}
-                          size={200}
-                          level="M"
-                        />
+                    <div className="bg-black/[0.01] border border-black/5 rounded-[2.5rem] p-10 space-y-8 shadow-inner">
+                      <div className="flex justify-center bg-white p-6 rounded-[2rem] shadow-xl mx-auto w-fit border border-black/5">
+                        <QRCode value={`https://tlalix.app/r/${code}`} size={180} level="M" />
                       </div>
                       
-                      {/* Withdrawal Code */}
-                      <div className="space-y-1">
-                        <p className="text-sm text-white/70">
-                          {lang === "es" ? "Código de retiro:" : "Withdrawal code:"}
+                      <div className="space-y-2">
+                        <p className="text-sm text-black/60 font-bold uppercase tracking-widest">
+                          {lang === "es" ? "Código de retiro confidencial" : "Confidential withdrawal code"}
                         </p>
-                        <p className="font-mono text-3xl font-bold text-[hsl(var(--color-celeste))]">{code}</p>
-                        <p className="text-xs text-white/70">
+                        <div className="text-5xl font-black text-jade tracking-[0.2em] font-mono bg-white py-4 rounded-2xl shadow-md border border-black/5">{code}</div>
+                        <p className="text-sm text-black/60 italic mt-4 px-6 leading-relaxed">
                           {lang === "es" 
-                            ? "Comparte este código con el destinatario para que retire el dinero" 
-                            : "Share this code with the recipient to withdraw the money"}
+                            ? "Comparte este código SOLO con el destinatario. Es necesario para retirar el efectivo." 
+                            : "Share this code ONLY with the recipient. It is required to withdraw cash."}
                         </p>
                       </div>
 
-                      {/* Amount */}
-                      <div className="pt-3 border-t border-white/10">
-                        <p className="text-sm text-white/70">
-                          {lang === "es" ? "El destinatario recibirá:" : "Recipient will receive:"}
-                        </p>
-                        <p className="text-2xl font-bold text-[hsl(var(--color-celeste))]">{formatMXN(amountMXN)}</p>
-                      </div>
-
-                      {/* Transaction Hash */}
-                      <div className="pt-3 border-t border-white/10 text-left">
-                        <p className="text-sm text-white/70 mb-2">
-                          {lang === "es" ? "Transacción en blockchain:" : "Blockchain transaction:"}
+                      <div className="pt-8 border-t border-black/5">
+                        <p className="text-black/60 text-sm font-bold uppercase tracking-widest mb-2">
+                          {lang === "es" ? "Recibo Digital" : "Digital Receipt"}
                         </p>
                         <a
                           href={`https://sepolia.scrollscan.com/tx/${txHash}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-[hsl(var(--color-celeste))] hover:underline flex items-center gap-1 break-all"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:shadow-md rounded-xl text-sm font-medium text-jade transition-all border border-black/5"
                         >
-                          {txHash.slice(0, 10)}...{txHash.slice(-8)}
-                          <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                          {txHash.slice(0, 12)}...{txHash.slice(-10)}
+                          <ExternalLink className="h-4 w-4" />
                         </a>
-                      </div>
-
-                      {/* Share Link */}
-                      <div className="text-left space-y-2">
-                        <p className="text-xs text-white/70">
-                          {lang === "es" ? "Enlace para reclamar:" : "Link to claim:"}
-                        </p>
-                        <div className="flex gap-2">
-                          <div className="text-xs text-white/70 break-all bg-white/5 p-3 rounded flex-1 border border-white/10">
-                            {window.location.origin}/recibir?code={code}
-                          </div>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/40"
-                            onClick={() => {
-                              navigator.clipboard.writeText(`${window.location.origin}/recibir?code=${code}`);
-                              toast({
-                                title: lang === "es" ? "¡Copiado!" : "Copied!",
-                                description: lang === "es" 
-                                  ? "Enlace copiado. Compártelo con el destinatario." 
-                                  : "Link copied. Share it with the recipient.",
-                              });
-                            }}
-                          >
-                            {lang === "es" ? "Copiar" : "Copy"}
-                          </Button>
-                        </div>
-                        <p className="text-xs text-white/70 italic">
-                          {lang === "es" 
-                            ? "💡 Comparte este enlace o el código con el destinatario para que pueda reclamar el dinero" 
-                            : "💡 Share this link or code with the recipient so they can claim the money"}
-                        </p>
                       </div>
                     </div>
 
                     <Button 
                       onClick={resetForm} 
-                      className="w-full bg-[hsl(var(--color-celeste))] hover:bg-[hsl(var(--color-celeste)/0.8)] text-white transition-all duration-300 hover:scale-105"
+                      className="w-full h-20 bg-jade hover:bg-jade/90 text-white text-2xl font-bold rounded-2xl shadow-2xl shadow-jade/20 transition-all"
                     >
-                      {lang === "es" ? "Enviar otra remesa" : "Send another remittance"}
+                      {lang === "es" ? "Hacer otro envío" : "Make another transfer"}
                     </Button>
                   </div>
                 )}
 
                 {status === "error" && (
-                  <div className="space-y-4 animate-fade-in">
-                    <XCircle className="h-16 w-16 mx-auto text-red-400" />
-                    <h3 className="text-2xl font-bold text-red-400">
-                      {lang === "es" ? "Error al enviar" : "Error sending"}
+                  <div className="space-y-6 animate-fade-in">
+                    <div className="h-24 w-24 bg-red-500/10 rounded-full mx-auto flex items-center justify-center">
+                      <XCircle className="h-14 w-14 text-red-500" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-red-500">
+                      {lang === "es" ? "Fallo en la conexión" : "Connection failed"}
                     </h3>
-                    <p className="text-white/70">
+                    <p className="text-black/60 text-lg">
                       {lang === "es" 
-                        ? "Hubo un problema al procesar tu remesa. Por favor intenta de nuevo." 
-                        : "There was a problem processing your remittance. Please try again."}
+                        ? "Hubo un obstáculo en el viaje. Por favor intenta de nuevo." 
+                        : "There was an obstacle in the journey. Please try again."}
                     </p>
                     <Button 
                       onClick={resetForm} 
                       variant="outline" 
-                      className="w-full border-white/20 text-white hover:bg-white/10"
+                      className="w-full h-16 border-black/10 text-black hover:bg-black/[0.02] rounded-2xl text-xl font-bold"
                     >
-                      {lang === "es" ? "Intentar de nuevo" : "Try again"}
+                      {lang === "es" ? "Reintentar" : "Retry"}
                     </Button>
                   </div>
                 )}
@@ -671,3 +630,6 @@ const Enviar = () => {
 };
 
 export default Enviar;
+
+
+

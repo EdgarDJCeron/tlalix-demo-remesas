@@ -17,7 +17,8 @@ const createCustomIcon = (isSelected: boolean) => {
     <div style="
       width: ${isSelected ? '48px' : '40px'}; 
       height: ${isSelected ? '48px' : '40px'}; 
-      background: ${isSelected ? '#a3e635' : '#0e96ae'}; 
+      background: ${isSelected ? '#10b981' : '#10b981'}; 
+      opacity: ${isSelected ? '1' : '0.8'};
       border-radius: 50%; 
       display: flex; 
       align-items: center; 
@@ -130,3 +131,5 @@ export const LeafletMap = ({ points, selectedPoint, onSelectPoint }: LeafletMapP
     />
   );
 };
+
+

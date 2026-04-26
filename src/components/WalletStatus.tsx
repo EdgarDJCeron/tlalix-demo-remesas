@@ -13,14 +13,14 @@ export const WalletStatus = () => {
 
   if (!isConnected) {
     return (
-      <Card className="border-yellow-500/50 bg-yellow-900/20 animate-fade-in">
+      <Card className="border-amber-200 bg-amber-50 animate-fade-in shadow-sm rounded-2xl">
         <CardContent className="pt-6">
           <div className="flex items-center gap-3">
-            <AlertCircle className="h-5 w-5 text-yellow-400" />
-            <p className="text-sm text-yellow-100 font-medium">
+            <AlertCircle className="h-5 w-5 text-amber-600" />
+            <p className="text-sm text-amber-800 font-medium italic">
               {lang === 'es' 
-                ? '⚠️ Conecta tu wallet para enviar remesas reales'
-                : '⚠️ Connect your wallet to send real remittances'}
+                ? 'Conecta tu wallet para iniciar el viaje de tus remesas'
+                : 'Connect your wallet to start your remittance journey'}
             </p>
           </div>
         </CardContent>
@@ -29,36 +29,36 @@ export const WalletStatus = () => {
   }
 
   return (
-    <Card className="border-white/10 bg-white/5 backdrop-blur-sm animate-fade-in">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm flex items-center gap-2 text-white">
-          <CheckCircle2 className="h-4 w-4 text-[hsl(var(--color-celeste))]" />
-          {lang === 'es' ? 'Wallet Conectada' : 'Wallet Connected'}
+    <Card className="border-black/5 bg-black/[0.01] animate-fade-in rounded-3xl overflow-hidden shadow-inner">
+      <CardHeader className="pb-3 pt-6 px-6">
+        <CardTitle className="text-xs font-black uppercase tracking-[0.3em] flex items-center gap-2 text-black/50">
+          <div className="h-2 w-2 rounded-full bg-jade animate-pulse" />
+          {lang === 'es' ? 'Protocolo Conectado' : 'Protocol Connected'}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2">
+      <CardContent className="space-y-3 px-6 pb-6">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-white/60">
+          <span className="text-black/60 font-medium">
             {lang === 'es' ? 'Dirección:' : 'Address:'}
           </span>
-          <span className="font-mono text-xs text-white font-medium">
+          <span className="font-mono text-sm text-black font-bold bg-white px-3 py-1 rounded-lg border border-black/5 shadow-sm">
             {address?.slice(0, 6)}...{address?.slice(-4)}
           </span>
         </div>
         <div className="flex items-center justify-between text-sm">
-          <span className="text-white/60">
+          <span className="text-black/60 font-medium">
             {lang === 'es' ? 'Red:' : 'Network:'}
           </span>
-          <Badge variant="outline" className="text-xs border-white/20 text-white bg-white/5">
+          <Badge variant="outline" className="text-xs font-black uppercase border-jade/20 text-jade bg-jade/5 px-2 py-0.5 rounded-full">
             {chain?.name || 'Unknown'}
           </Badge>
         </div>
         {balance && (
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-white/60">
-              {lang === 'es' ? 'Balance:' : 'Balance:'}
+          <div className="flex items-center justify-between text-sm pt-2 border-t border-black/5">
+            <span className="text-black/60 font-medium">
+              {lang === 'es' ? 'Gas Nativo:' : 'Native Gas:'}
             </span>
-            <span className="font-medium text-white">
+            <span className="font-bold text-black">
               {parseFloat(balance.formatted).toFixed(4)} {balance.symbol}
             </span>
           </div>
@@ -67,3 +67,5 @@ export const WalletStatus = () => {
     </Card>
   );
 };
+
+

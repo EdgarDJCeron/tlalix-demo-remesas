@@ -3,6 +3,7 @@ import { Send, Wallet, MapPin, Check, ChevronDown, ChevronUp } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
@@ -125,46 +126,50 @@ const ComoFunciona = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-gradient-hero py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-primary-foreground md:text-5xl">
-            {lang === "es" ? "Cómo funciona Tlalix paso a paso" : "How Tlalix works step by step"}
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-jade/5 blur-[150px] rounded-full pointer-events-none" />
+        <div className="container mx-auto px-16 text-center relative z-10">
+          <h1 className="mb-8 text-4xl md:text-5xl font-black text-black tracking-tighter uppercase leading-[0.9]" style={{ fontFamily: 'Cinzel, serif' }}>
+            {lang === "es" ? "EL VIAJE DE TU DINERO" : "YOUR MONEY'S JOURNEY"}
           </h1>
-          <p className="text-lg text-primary-foreground/90 md:text-xl max-w-2xl mx-auto">
+          <p className="text-xl text-black/60 md:text-2xl max-w-2xl mx-auto font-light italic" style={{ fontFamily: 'Caudex, serif' }}>
             {lang === "es" 
-              ? "Sigue el recorrido de una remesa desde Juan (EE. UU.) hasta su mamá en México." 
-              : "Follow the journey of a remittance from Juan (USA) to his mom in Mexico."}
+              ? "Sigue el recorrido de una remesa desde el envío digital hasta el efectivo en mano." 
+              : "Follow the journey of a remittance from digital sending to cash in hand."}
           </p>
         </div>
       </section>
 
       {/* Acto 1 - Envío */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-foreground">
-              {lang === "es" ? "Acto 1 – Envío (Juan en EE. UU.)" : "Act 1 – Sending (Juan in USA)"}
+      <section className="py-24 bg-gray-50/50 border-y border-black/5">
+        <div className="container mx-auto px-16">
+          <div className="mb-16 text-center">
+            <Badge className="bg-jade/10 text-jade hover:bg-jade/20 border-jade/20 mb-6 px-4 py-1.5 rounded-full text-sm font-black tracking-widest uppercase">
+              {lang === "es" ? "Acto 1: El Origen" : "Act 1: The Origin"}
+            </Badge>
+            <h2 className="mb-6 text-4xl md:text-5xl font-black text-black tracking-tight uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
+              {lang === "es" ? "ENVÍO DESDE EE. UU." : "SENDING FROM USA"}
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-lg text-black/60 font-light max-w-xl mx-auto">
               {lang === "es" 
-                ? "Juan quiere enviar $100 USD a su mamá en México." 
-                : "Juan wants to send $100 USD to his mom in Mexico."}
+                ? "Juan inicia el viaje enviando $100 USD de forma instantánea." 
+                : "Juan starts the journey by sending $100 USD instantly."}
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mb-16">
             {acto1Steps.map((step, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all">
+              <Card key={index} className="bg-white border-black/5 hover:shadow-xl transition-all duration-500 rounded-[2.5rem] p-4">
                 <CardHeader>
-                  <div className="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <step.icon className="h-6 w-6 text-primary" />
+                  <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-jade/10 group-hover:bg-jade/20 transition-colors">
+                    <step.icon className="h-7 w-7 text-jade" />
                   </div>
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
+                  <CardTitle className="text-xl font-black text-black tracking-tight uppercase leading-tight">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+                  <p className="text-black/60 font-light leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -173,38 +178,33 @@ const ComoFunciona = () => {
           <div className="text-center">
             <Dialog open={openModal === "acto1"} onOpenChange={(open) => setOpenModal(open ? "acto1" : null)}>
               <DialogTrigger asChild>
-                <Button variant="outline">
-                  {lang === "es" ? "Ver ejemplo visual" : "View visual example"}
+                <Button variant="outline" className="h-14 px-8 border-black/10 bg-white hover:bg-gray-50 text-black font-bold rounded-2xl shadow-sm">
+                  {lang === "es" ? "Ver desglose de costos" : "View cost breakdown"}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>
-                    {lang === "es" ? "Proceso de envío" : "Sending process"}
+              <DialogContent className="max-w-2xl bg-white border-black/5 rounded-[3rem] p-10">
+                <DialogHeader className="mb-8">
+                  <DialogTitle className="text-3xl font-black text-black tracking-tighter uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
+                    {lang === "es" ? "Transparencia Total" : "Total Transparency"}
                   </DialogTitle>
                 </DialogHeader>
-                <div className="bg-muted rounded-lg p-8 text-center">
-                  <p className="text-muted-foreground mb-4">
-                    {lang === "es" 
-                      ? "Simulación visual del proceso de envío. En producción aquí se mostraría una interfaz interactiva." 
-                      : "Visual simulation of the sending process. In production, an interactive interface would be shown here."}
-                  </p>
-                  <div className="bg-card border rounded-lg p-6 space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{lang === "es" ? "Monto a enviar:" : "Amount to send:"}</span>
-                      <span className="text-2xl font-bold">$100 USD</span>
+                <div className="bg-gray-50 rounded-[2.5rem] p-10 shadow-inner">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center text-black/60 font-medium">
+                      <span>{lang === "es" ? "Monto a enviar:" : "Amount to send:"}</span>
+                      <span className="text-2xl font-bold text-black">$100.00 USDC</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{lang === "es" ? "Tipo de cambio:" : "Exchange rate:"}</span>
-                      <span>17.50 MXN/USD</span>
+                    <div className="flex justify-between items-center text-black/60 font-medium">
+                      <span>{lang === "es" ? "Tipo de cambio:" : "Exchange rate:"}</span>
+                      <span className="text-black">17.50 MXN/USD</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{lang === "es" ? "Comisión (1.5%):" : "Fee (1.5%):"}</span>
-                      <span>$1.50 USD</span>
+                    <div className="flex justify-between items-center text-black/60 font-medium">
+                      <span>{lang === "es" ? "Comisión de red (1.5%):" : "Network fee (1.5%):"}</span>
+                      <span className="text-oro font-bold">$1.50 USDC</span>
                     </div>
-                    <div className="border-t pt-4 flex justify-between items-center">
-                      <span className="font-bold">{lang === "es" ? "Mamá recibe:" : "Mom receives:"}</span>
-                      <span className="text-2xl font-bold text-success">$1,732.50 MXN</span>
+                    <div className="border-t border-black/10 pt-6 flex flex-col items-center gap-2">
+                      <span className="text-black/40 text-sm font-black uppercase tracking-widest">{lang === "es" ? "Mamá recibe en México:" : "Mom receives in Mexico:"}</span>
+                      <span className="text-5xl font-black text-jade tracking-tighter">$1,723.75 MXN</span>
                     </div>
                   </div>
                 </div>
@@ -215,30 +215,33 @@ const ComoFunciona = () => {
       </section>
 
       {/* Acto 2 - Recepción */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-foreground">
-              {lang === "es" ? "Acto 2 – Recepción (Mamá en México)" : "Act 2 – Receiving (Mom in Mexico)"}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-16">
+          <div className="mb-16 text-center">
+            <Badge className="bg-oro/10 text-oro border-oro/20 mb-6 px-4 py-1.5 rounded-full text-sm font-black tracking-widest uppercase">
+              {lang === "es" ? "Acto 2: El Enlace" : "Act 2: The Link"}
+            </Badge>
+            <h2 className="mb-6 text-4xl md:text-5xl font-black text-black tracking-tight uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
+              {lang === "es" ? "RECEPCIÓN EN MÉXICO" : "RECEIVING IN MEXICO"}
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-lg text-black/60 font-light max-w-xl mx-auto">
               {lang === "es" 
-                ? "Mamá recibe una notificación y abre el enlace seguro." 
-                : "Mom receives a notification and opens the secure link."}
+                ? "Mamá abre el link y ve su saldo disponible al instante." 
+                : "Mom opens the link and sees her balance available instantly."}
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {acto2Steps.map((step, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all">
+              <Card key={index} className="bg-white border-black/5 hover:shadow-xl transition-all duration-500 rounded-[2.5rem] p-4">
                 <CardHeader>
-                  <div className="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-secondary/10">
-                    <step.icon className="h-6 w-6 text-secondary" />
+                  <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-oro/10">
+                    <step.icon className="h-7 w-7 text-oro" />
                   </div>
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
+                  <CardTitle className="text-xl font-black text-black tracking-tight uppercase leading-tight">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+                  <p className="text-black/60 font-light leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -247,46 +250,57 @@ const ComoFunciona = () => {
       </section>
 
       {/* Acto 3 - Retiro */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-foreground">
-              {lang === "es" ? "Acto 3 – Retiro (Comercio local)" : "Act 3 – Withdrawal (Local store)"}
+      <section className="py-24 bg-gray-50/50 border-y border-black/5">
+        <div className="container mx-auto px-16">
+          <div className="mb-16 text-center">
+            <Badge className="bg-jade/10 text-jade border-jade/20 mb-6 px-4 py-1.5 rounded-full text-sm font-black tracking-widest uppercase">
+              {lang === "es" ? "Acto 3: La Realidad" : "Act 3: The Reality"}
+            </Badge>
+            <h2 className="mb-6 text-4xl md:text-5xl font-black text-black tracking-tight uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
+              {lang === "es" ? "RETIRO DE EFECTIVO" : "CASH WITHDRAWAL"}
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-lg text-black/60 font-light max-w-xl mx-auto">
               {lang === "es" 
-                ? "Mamá va a su tienda más cercana y retira en efectivo." 
-                : "Mom goes to her nearest store and withdraws cash."}
+                ? "El último paso: convertir el valor digital en pesos físicos." 
+                : "The last step: converting digital value into physical pesos."}
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3 mb-8">
+          <div className="grid gap-8 md:grid-cols-3 mb-16">
             {acto3Steps.map((step, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all">
+              <Card key={index} className="bg-white border-black/5 hover:shadow-xl transition-all duration-500 rounded-[2.5rem] p-4">
                 <CardHeader>
-                  <div className="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
-                    <step.icon className="h-6 w-6 text-accent" />
+                  <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-jade/10">
+                    <step.icon className="h-7 w-7 text-jade" />
                   </div>
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
+                  <CardTitle className="text-xl font-black text-black tracking-tight uppercase leading-tight">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+                  <p className="text-black/60 font-light leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
 
           <div className="text-center">
-            <Card className="max-w-md mx-auto bg-gradient-accent text-accent-foreground">
-              <CardContent className="p-8">
-                <div className="mb-4 h-32 w-32 mx-auto bg-white rounded-lg flex items-center justify-center">
-                  <div className="text-6xl font-mono font-bold text-primary">QR</div>
+            <Card className="max-w-md mx-auto bg-white border border-black/5 rounded-[3rem] p-10 shadow-2xl overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-jade/[0.03] to-transparent pointer-events-none" />
+              <CardContent className="p-0 relative z-10">
+                <div className="mb-10 bg-gray-50 p-6 rounded-[2rem] shadow-inner mx-auto w-fit border border-black/5">
+                  <div className="h-32 w-32 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                    <div className="text-4xl font-black text-jade font-mono">QR</div>
+                  </div>
                 </div>
-                <p className="text-sm mb-2">{lang === "es" ? "Código:" : "Code:"} 123456</p>
-                <p className="text-sm mb-2">{lang === "es" ? "Monto:" : "Amount:"} $1,732.50 MXN</p>
-                <p className="text-xs opacity-90">
-                  {lang === "es" ? "Válido por 24 horas" : "Valid for 24 hours"}
-                </p>
+                <div className="space-y-2 mb-8">
+                  <p className="text-sm text-black/40 font-black uppercase tracking-[0.3em]">{lang === "es" ? "Código Confidencial" : "Confidential Code"}</p>
+                  <p className="text-4xl font-black text-black font-mono tracking-widest">123456</p>
+                </div>
+                <div className="pt-6 border-t border-black/5">
+                  <p className="text-2xl font-black text-jade tracking-tighter">$1,723.75 MXN</p>
+                  <p className="text-xs text-black/50 font-bold uppercase tracking-widest mt-2">
+                    {lang === "es" ? "Válido por 24 horas" : "Valid for 24 hours"}
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -294,37 +308,40 @@ const ComoFunciona = () => {
       </section>
 
       {/* Educational Block */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl font-bold">
+      <section className="py-32 relative overflow-hidden bg-white">
+        <div className="absolute inset-0 bg-jade/[0.02] pointer-events-none" />
+        <div className="container mx-auto px-16 text-center relative z-10">
+          <h2 className="mb-8 text-4xl md:text-6xl font-black text-black tracking-tighter uppercase leading-[1.1]" style={{ fontFamily: 'Cinzel, serif' }}>
             {lang === "es" 
-              ? "Tlalix combina tecnología y educación" 
-              : "Tlalix combines technology and education"}
+              ? "CONSTRUYENDO EL FUTURO CON CONFIANZA" 
+              : "BUILDING THE FUTURE WITH CONFIDENCE"}
           </h2>
-          <p className="mb-8 text-lg opacity-90 max-w-2xl mx-auto">
+          <p className="mb-12 text-xl text-black/60 font-light italic max-w-2xl mx-auto" style={{ fontFamily: 'Caudex, serif' }}>
             {lang === "es" 
-              ? "Para que cualquier persona pueda enviar y recibir dinero con confianza, sin necesidad de conocimientos técnicos." 
-              : "So anyone can send and receive money confidently, without needing technical knowledge."}
+              ? "Tlalix elimina la complejidad técnica para que el valor fluya libremente entre familias." 
+              : "Tlalix removes technical complexity so value flows freely between families."}
           </p>
           <Link to="/enviar">
-            <Button size="lg" variant="secondary">
-              {lang === "es" ? "Probar demo" : "Try demo"}
+            <Button size="lg" className="h-20 px-16 bg-jade hover:bg-jade/90 text-white text-xl font-black rounded-3xl shadow-2xl shadow-jade/20 uppercase tracking-widest">
+              {lang === "es" ? "Probar demo ahora" : "Try demo now"}
             </Button>
           </Link>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="mb-8 text-3xl font-bold text-center text-foreground">
+      <section className="py-32 bg-gray-50/50 border-t border-black/5">
+        <div className="container mx-auto px-16 max-w-3xl">
+          <h2 className="mb-16 text-4xl font-black text-center text-black tracking-tighter uppercase" style={{ fontFamily: 'Cinzel, serif' }}>
             {lang === "es" ? "Preguntas frecuentes" : "Frequently asked questions"}
           </h2>
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
+              <AccordionItem key={index} value={`item-${index}`} className="bg-white border border-black/5 rounded-[2rem] px-8 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <AccordionTrigger className="text-left font-black text-black hover:no-underline py-6">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-black/60 text-lg font-light pb-6 leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -337,3 +354,6 @@ const ComoFunciona = () => {
 };
 
 export default ComoFunciona;
+
+
+

@@ -11,95 +11,59 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 186 62% 17%;
+    --background: 0 0% 100%; /* White */
+    --foreground: 230 45% 4%; /* Deep Dark */
 
-    --card: 0 0% 100%;
-    --card-foreground: 186 62% 17%;
+    --card: 0 0% 98%;
+    --card-foreground: 230 45% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 186 62% 17%;
+    --popover-foreground: 230 45% 4%;
 
-    --primary: 186 62% 17%;
-    --primary-foreground: 210 20% 98%;
+    --primary: 160 84% 39%; /* Verde Jade */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 107 23% 39%;
-    --secondary-foreground: 210 20% 98%;
+    --secondary: 45 93% 47%; /* Oro Tlalix */
+    --secondary-foreground: 230 45% 8%;
 
-    --muted: 210 20% 95%;
-    --muted-foreground: 186 20% 40%;
+    --muted: 230 10% 95%;
+    --muted-foreground: 230 10% 30%;
 
-    --accent: 300 91% 45%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 7 81% 43%;
-    --destructive-foreground: 210 20% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 35 89% 61%;
-    --success-foreground: 186 62% 17%;
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 186 62% 17%;
+    --border: 230 45% 4% / 0.1;
+    --input: 230 45% 4% / 0.05;
+    --ring: 160 84% 39%;
 
-    --radius: 0.75rem;
+    --radius: 1.25rem;
 
-    --gradient-primary: linear-gradient(135deg, hsl(186, 62%, 17%), hsl(107, 23%, 39%));
-    --gradient-hero: linear-gradient(180deg, hsl(186, 62%, 17%) 0%, hsl(107, 23%, 30%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(300, 91%, 45%), hsl(186, 62%, 40%));
+    --gradient-primary: linear-gradient(135deg, hsl(160, 84%, 39%), hsl(160, 84%, 20%));
+    --gradient-gold: linear-gradient(135deg, hsl(45, 93% , 47%), hsl(25, 93%, 30%));
+    --gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
     
-    --shadow-sm: 0 2px 8px hsl(186 62% 17% / 0.05);
-    --shadow-md: 0 8px 24px hsl(186 62% 17% / 0.1);
-    --shadow-lg: 0 16px 48px hsl(186 62% 17% / 0.15);
-    --shadow-glow: 0 0 40px hsl(300 91% 45% / 0.3);
-    
-    /* Colores para el Navbar */
-    --color-azul-mar: 185 64% 16%;        /* #0f3d45 */
-    --color-celeste: 190 87% 37%;         /* #0e96ae */
-    --color-azul-marino: 234 54% 15%;     /* #131841 */
-    --color-blanco: 0 0% 100%;            /* #ffffff */
+    --shadow-glow: 0 20px 40px hsl(160 84% 39% / 0.1);
+    --shadow-gold: 0 20px 40px hsl(45 93% 47% / 0.1);
+
+    /* Colores Específicos */
+    --color-jade: 160 84% 39%;
+    --color-oro: 45 93% 47%;
+    --color-noche: 0 0% 100%;
+    --color-celeste: 185 85% 45%; /* Blueish Jade for accents */
+    --color-fuego: 25 95% 50%;
   }
 
   .dark {
-    --background: 234 54% 15%;
+    --background: 230 45% 4%;
     --foreground: 0 0% 100%;
-
-    --card: 234 54% 18%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 234 54% 18%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: 190 87% 37%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 190 50% 25%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 234 40% 25%;
-    --muted-foreground: 0 0% 75%;
-
-    --accent: 84 81% 44%;
-    --accent-foreground: 234 54% 15%;
-
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-
-    --success: 84 81% 44%;
-    --success-foreground: 234 54% 15%;
-
+    --card: 230 45% 6%;
     --border: 0 0% 100% / 0.1;
-    --input: 0 0% 100% / 0.1;
-    --ring: 190 87% 37%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(190, 87%, 37%), hsl(84, 81%, 44%));
-    --gradient-hero: linear-gradient(180deg, hsl(234, 54%, 15%) 0%, hsl(190, 87%, 20%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(190, 87%, 37%), hsl(84, 81%, 44%));
-    
-    --shadow-sm: 0 2px 8px hsl(0 0% 0% / 0.3);
-    --shadow-md: 0 8px 24px hsl(0 0% 0% / 0.4);
-    --shadow-lg: 0 16px 48px hsl(0 0% 0% / 0.5);
-    --shadow-glow: 0 0 40px hsl(190 87% 37% / 0.4);
   }
 }
 
@@ -213,23 +177,51 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
   }
 
-  /* Glassmorphism */
+  /* Glassmorphism Refined for Light Mode */
   .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    @apply bg-white/60 backdrop-blur-xl border border-black/5 shadow-xl;
   }
 
+  .glass-mictlan {
+    @apply bg-white/80 backdrop-blur-md border border-jade/20 shadow-[0_20px_50px_rgba(0,0,0,0.05)];
+  }
+
+  /* Text Glows */
+  .text-glow-jade {
+    text-shadow: 0 0 20px hsl(var(--color-jade) / 0.5);
+  }
+
+  .text-glow-oro {
+    text-shadow: 0 0 20px hsl(var(--color-oro) / 0.5);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--color-jade) / 0.2);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--color-jade) / 0.4);
+  }
   /* Leaflet Map Customization */
   .leaflet-container {
-    background: hsl(var(--color-azul-marino));
+    background: #f8f9fa;
     font-family: inherit;
   }
 
   .leaflet-popup-content-wrapper {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   }
 
   .leaflet-popup-tip {
@@ -237,11 +229,15 @@ All colors MUST be HSL.
   }
 
   .leaflet-control-zoom a {
-    background: rgba(255, 255, 255, 0.9) !important;
-    color: hsl(var(--color-azul-marino)) !important;
+    background: white !important;
+    color: black !important;
+    @apply border border-black/5 !important;
+    border-radius: 8px !important;
+    margin-bottom: 4px !important;
   }
 
   .leaflet-control-zoom a:hover {
-    background: white !important;
+    background: #f8f9fa !important;
+    color: hsl(var(--color-jade)) !important;
   }
 }
